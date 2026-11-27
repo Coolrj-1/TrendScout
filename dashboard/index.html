@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b1020">
+<link rel="manifest" href="/manifest.webmanifest"><link rel="icon" href="/icon.svg" type="image/svg+xml">
 <meta name="description" content="Discover rising GitHub repositories across AI agents, MCP servers, local LLMs, coding agents and developer tools. Explore ranked projects and measured star growth with TrendScout.">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="canonical" href="https://trendscout.pages.dev/dashboard/">
@@ -86,6 +87,11 @@ main{max-width:1120px;margin:auto;padding:34px 20px 64px}
 <button id="refresh" type="button">Refresh data</button>
 </div>
 <div id="notice" class="notice" role="status">Loading TrendScout data…</div>
+<section class="howto"><h2>Daily Trending Feed</h2><div class="grid" id="daily-feed"></div></section>
+<section class="howto"><h2>AI Project of the Day</h2><div id="project-day">Loading…</div></section>
+<section class="howto"><h2>Explore by technology</h2><p><a href="/technology/ai-agents/">AI agents</a> · <a href="/technology/mcp/">MCP</a> · <a href="/technology/local-ai/">Local AI</a> · <a href="/technology/android/">Android</a> · <a href="/technology/ai-video/">AI video</a></p></section>
+<section class="howto"><h2>Compare projects</h2><p class="muted">Select up to three projects using the checkboxes on project cards.</p><div id="compare-results">No projects selected.</div></section>
+<section class="howto"><h2>Project Health Checker</h2><select id="health-project"><option value="">Choose a project</option></select><div id="health-results">No project selected.</div></section>
 <section class="howto"><h2>How to use TrendScout</h2><ol><li>Search by project name, topic or technology.</li><li>Filter by category and sort by stars, recent activity or measured 7-day growth.</li><li>Open <b>Repository details</b> to inspect license, topics, activity and project settings.</li><li>Use the GitHub README, releases, issues and security information before installing anything.</li><li>Copy the clone command or open the repository on GitHub.</li></ol><p class="muted">Stars show popularity, not quality. Check the source and permissions before running code.</p></section>
 <h2 class="section">Discoveries</h2><section class="grid" id="cards"></section>
 <h2 class="section">All projects</h2>
@@ -94,7 +100,7 @@ main{max-width:1120px;margin:auto;padding:34px 20px 64px}
 </main>
 <script>
 const $=s=>document.querySelector(s);
-let all=[];
+let all=[];\nconst compareSelection=new Set();
 const fmt=n=>Number(n||0).toLocaleString();
 const safeDate=s=>{if(!s)return "Unknown";const d=new Date(s);return Number.isNaN(d.getTime())?"Unknown":d.toLocaleDateString()};
 function normalizeReport(d){
@@ -131,7 +137,7 @@ function render(){
   if(validRepoUrl(r.url)){const a=make("a","",r.full_name);a.href=r.url;a.target="_blank";a.rel="noopener noreferrer";h.append(a);}else h.textContent=r.full_name||"Unknown repository";
   const growth=make("span","growth "+(Number(r.stars_7d)>0?"up":Number(r.stars_7d)<0?"down":""),growthLabel(r));
   meta.append(make("span","", "★ "+fmt(r.stars)),make("span","","⑂ "+fmt(r.forks)+" forks"),make("span","",r.language));
-  card.append(pill,h,desc,meta,growth);
+  card.append(pill,h,desc,meta,growth);\n  const pick=make("label","compare-toggle"),check=document.createElement("input");check.type="checkbox";check.checked=compareSelection.has(r.full_name);check.addEventListener("change",()=>{if(check.checked&&compareSelection.size>=3){check.checked=false;alert("Choose up to three projects.");return;}check.checked?compareSelection.add(r.full_name):compareSelection.delete(r.full_name);renderComparison();});pick.append(check,document.createTextNode(" Compare"));card.append(pick);
   if(r.pushed_at)card.append(make("div","muted","Last push: "+safeDate(r.pushed_at)));
   const details=make("details","details"),summary=make("summary","", "Repository details & how to use");
   const dg=make("div","detailgrid");
@@ -168,7 +174,32 @@ function render(){
   tr.append(tdName,make("td","",r.category),make("td","",fmt(r.stars)),make("td","",growthLabel(r)),make("td","",r.language));$("#rows").append(tr);
  }
 }
-async function load(){
+
+function renderDaily(){
+ const root=$("#daily-feed");root.replaceChildren();
+ [...all].filter(r=>r.pushed_at).sort((a,b)=>new Date(b.pushed_at)-new Date(a.pushed_at)).slice(0,6).forEach(r=>{
+ const box=make("article","card"),h=make("h3","",r.full_name),p=make("p","desc",r.description||"No description"),m=make("p","muted","★ "+fmt(r.stars)+" · "+r.language+" · "+safeDate(r.pushed_at)),a=make("a","","Open repository →");a.href=r.url;a.target="_blank";a.rel="noopener noreferrer";box.append(h,p,m,a);root.append(box);
+ });
+}
+function renderProjectDay(){
+ if(!all.length)return;const seed=[...new Date().toISOString().slice(0,10)].reduce((n,x)=>n+x.charCodeAt(0),0),r=all.filter(x=>x.url&&x.description)[seed%all.filter(x=>x.url&&x.description).length],root=$("#project-day");root.replaceChildren();
+ const h=make("h3","",r.full_name),p=make("p","desc",r.description),a=make("a","","Explore project →");a.href=r.url;a.target="_blank";a.rel="noopener noreferrer";root.append(h,p,a,make("p","muted","Daily editorial pick from the latest scan; not an endorsement."));
+}
+function renderComparison(){
+ const root=$("#compare-results");root.replaceChildren();const chosen=all.filter(r=>compareSelection.has(r.full_name));if(!chosen.length){root.textContent="No projects selected.";return;}
+ const table=make("table","table"),head=make("tr");["Metric",...chosen.map(r=>r.full_name)].forEach(x=>head.append(make("th","",x)));table.append(head);
+ [["Stars",r=>fmt(r.stars)],["Forks",r=>fmt(r.forks)],["Language",r=>r.language],["Category",r=>r.category],["Last push",r=>safeDate(r.pushed_at)],["License",r=>r.license||"Not provided"],["Open issues",r=>fmt(r.open_issues)]].forEach(([label,get])=>{const tr=make("tr");tr.append(make("th","",label));chosen.forEach(r=>tr.append(make("td","",get(r))));table.append(tr);});root.append(table);
+}
+function runHealth(){
+ const r=all.find(x=>x.full_name===$("#health-project").value),root=$("#health-results");root.replaceChildren();if(!r){root.textContent="Choose a project.";return;}
+ const checks=[["Recent push",!!r.pushed_at&&Date.now()-new Date(r.pushed_at).getTime()<180*86400000],["License listed",!!(r.license&&r.license!=="Not provided")],["Description present",!!r.description],["Not archived",!r.archived],["Community signal",r.stars>0||r.forks>0]];
+ const score=Math.round(checks.filter(x=>x[1]).length/checks.length*100);root.append(make("h3","", "Metadata checklist: "+score+"/100"));checks.forEach(x=>root.append(make("p","", (x[1]?"✓ ":"! ")+x[0])));root.append(make("p","muted","Metadata-only heuristic, not a security audit or code review."));
+}
+function setupHealth(){
+ const s=$("#health-project"),v=s.value;s.replaceChildren(make("option","","Choose a project"));all.forEach(r=>{const o=make("option","",r.full_name);o.value=r.full_name;s.append(o)});s.value=v;
+}
+$("#health-project").addEventListener("change",runHealth);
+\nasync function load(){
  $("#notice").textContent="Fetching the latest published scan…";
  try{
   const response=await fetch("../reports/latest.json?cache="+Date.now(),{cache:"no-store"});
