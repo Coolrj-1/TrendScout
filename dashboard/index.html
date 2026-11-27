@@ -138,6 +138,23 @@ function render(){
   const fields=[["Created",safeDate(r.created_at)],["License",r.license||"Not provided"],["Default branch",r.default_branch||"main"],["Open issues",fmt(r.open_issues)],["Watchers",fmt(r.watchers)],["Repository size",r.size_kb?fmt(r.size_kb)+" KB":"Not provided"],["Visibility",r.visibility||"Public"],["Owner type",r.owner_type||"Unknown"],["Archived",r.archived?"Yes":"No"],["Wiki",r.has_wiki?"Available":"Not enabled"],["GitHub Pages",r.has_pages?"Enabled":"Not enabled"]];
   fields.forEach(([label,value])=>{const item=make("div","detailitem");item.append(make("b","",label),document.createTextNode(value));dg.append(item)});
   details.append(summary,dg);
+  const reviewTitle=make("b","","Public pull-request review sample");
+  details.append(reviewTitle);
+  if(r.review_data_status==="sampled"){
+    const totals=r.recent_review_summary||{};
+    const reviewStats=make("div","detailgrid");
+    [["Approvals",fmt(totals.APPROVED)],["Changes requested",fmt(totals.CHANGES_REQUESTED)],["Comments",fmt(totals.COMMENTED)],["Dismissed",fmt(totals.DISMISSED)]].forEach(([label,value])=>{const item=make("div","detailitem");item.append(make("b","",label),document.createTextNode(value));reviewStats.append(item)});
+    details.append(reviewStats);
+    (r.recent_pull_requests||[]).forEach(pr=>{
+      const line=make("div","detailitem");
+      const a=make("a","", "#"+pr.number+" · "+(pr.title||"Untitled pull request"));a.href=pr.url;a.target="_blank";a.rel="noopener noreferrer";
+      line.append(a,document.createTextNode(" · "+(pr.merged?"Merged":pr.state)+" · "+fmt(pr.approvals_sampled)+" approvals · "+fmt(pr.changes_requested_sampled)+" change requests"));
+      details.append(line);
+    });
+    details.append(make("p","muted",r.review_sample_note||"Review totals cover only a recent sample."));
+  }else{
+    details.append(make("p","muted","Public review data has not been collected for this repository yet."));
+  }
   if(Array.isArray(r.topics)&&r.topics.length){details.append(make("b","","Topics"));const tags=make("div","topics");r.topics.forEach(t=>tags.append(make("span","topic",t)));details.append(tags);}
   const clone=make("div","clone"),cmd=document.createElement("code");cmd.textContent="git clone "+(r.url||"");clone.append(cmd);
   const copy=make("button","","Copy clone command");copy.type="button";copy.addEventListener("click",()=>{if(navigator.clipboard?.writeText){navigator.clipboard.writeText(cmd.textContent).then(()=>{copy.textContent="Copied!"}).catch(()=>{copy.textContent="Copy unavailable"});}else{copy.textContent="Copy unavailable"}});
