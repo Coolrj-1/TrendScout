@@ -1,0 +1,49 @@
+name: Deploy TrendScout dashboard to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "dashboard/**"
+      - "reports/latest.json"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Prepare site
+        run: |
+          mkdir -p public/reports
+          cp -R dashboard public/dashboard
+          cp reports/latest.json public/reports/latest.json
+          cat > public/index.html <<'EOF'
+          <!doctype html>
+          <html lang="en"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=./dashboard/"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TrendScout</title></head><body><p>Opening <a href="./dashboard/">TrendScout dashboard</a>…</p></body></html>
+          EOF
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
