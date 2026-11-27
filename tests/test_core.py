@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from datetime import date
 from pathlib import Path
-from trendscout.core import collect, normalize, score_repositories, render_markdown, repository_health, find_historical_comparison
+from trendscout.core import collect, normalize, score_repositories, render_markdown, repository_health, find_comparison
 
 class TrendScoutTests(unittest.TestCase):
     def setUp(self):
@@ -81,7 +81,7 @@ class TrendScoutTests(unittest.TestCase):
 
     def test_health_score_flags_archived_and_unlicensed_repositories(self):
         item = repository_health({'archived': True, 'license': 'Not specified', 'pushed_at': '2020-01-01T00:00:00Z'}, date(2026, 11, 27))
-        self.assertEqual(item['health_score'], 5)
+        self.assertEqual(item['health_score'], 0)
         self.assertEqual(item['health_label'], 'Needs review')
         self.assertIn('Archived repository', item['health_notes'])
 
@@ -90,7 +90,7 @@ class TrendScoutTests(unittest.TestCase):
             folder = Path(temp)
             old = {'repositories': [{'full_name': 'demo/project', 'stars': 80}]}
             (folder / '2026-10-28.json').write_text(__import__('json').dumps(old))
-            self.assertEqual(find_historical_comparison('demo/project', date(2026, 11, 27), 27, 33, folder), 80)
+            self.assertEqual(find_comparison('demo/project', date(2026, 11, 27), folder, 30), 80)
 
 if __name__ == "__main__":
     unittest.main()
