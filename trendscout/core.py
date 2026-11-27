@@ -218,6 +218,11 @@ def run():
         "categories": categories,
         "repositories": dashboard_repositories,
         "hacker_news": hacker_news,
+        "external_discovery": {
+            "github_trending": github_trending_signals(),
+            "hacker_news": hacker_news_signals(),
+            "note": "GitHub Trending and Hacker News are secondary discovery hints; they do not affect star-based rankings."
+        },
         "hacker_news_status": "available" if hacker_news else "no-results-or-temporarily-unavailable",
         "health_method": "Metadata heuristic only; not a security audit. Uses archive status, recognized license and last-push recency.",
     }
