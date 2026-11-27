@@ -151,7 +151,7 @@ def run():
         "repositories": dashboard_repositories,
     }
     (REPORTS / "latest.json").write_text(
-        json.dumps(dashboard_report, indent=2, ensure_ascii=False) + "\\n", encoding="utf-8"
+        json.dumps(dashboard_report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
     )
     (REPORTS / "latest.md").write_text(render_markdown(snapshot, ranked), encoding="utf-8")
     print(f"Saved {len(snapshot['repositories'])} repositories to {snapshot_path}")
