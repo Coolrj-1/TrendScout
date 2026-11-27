@@ -78,6 +78,17 @@ Then open `http://localhost:8000/dashboard/`. The dashboard loads its data from 
 
 The public site includes descriptive page titles, canonical URLs, Open Graph metadata, a crawlable homepage, a methodology page, `robots.txt`, and an XML sitemap. Submit `https://trendscout.pages.dev/sitemap.xml` to Google Search Console and Bing Webmaster Tools to request indexing; indexing and rankings are controlled by those search engines and are not guaranteed.
 
+## Traffic analytics
+
+TrendScout can use Cloudflare Web Analytics without adding a third-party advertising tracker. To enable it:
+
+1. In the Cloudflare dashboard, open **Analytics & Logs → Web Analytics**.
+2. Add the site hostname `trendscout.pages.dev` and copy the generated token.
+3. In **Workers & Pages → TrendScout → Settings → Variables and Secrets**, add `CLOUDFLARE_WEB_ANALYTICS_TOKEN` as an environment variable for production builds.
+4. Trigger a new Pages deployment. The build script can inject the Cloudflare beacon when this variable is present; without the token, no analytics script is added.
+
+The site owner must create the Web Analytics property and supply its token. Do not commit the token to GitHub. Analytics data appears only after deployment and visitor activity; it is not retroactive.
+
 ## Run tests
 
 ```bash
