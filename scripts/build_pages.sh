@@ -103,6 +103,28 @@ cat > "$OUT/about/index.html" <<'HTML'
 </body></html>
 HTML
 
+mkdir -p "$OUT/guides/find-trending-github-repositories"
+cat > "$OUT/guides/find-trending-github-repositories/index.html" <<'GUIDE'
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A practical guide to finding trending GitHub repositories: search by topic, compare star growth, check recent activity and avoid popularity traps.">
+<meta name="robots" content="index,follow"><link rel="canonical" href="https://trendscout.pages.dev/guides/find-trending-github-repositories/">
+<meta property="og:type" content="article"><meta property="og:title" content="How to Find Trending GitHub Repositories"><meta property="og:description" content="A practical method for discovering emerging open-source projects using activity, star growth and topic searches.">
+<title>How to Find Trending GitHub Repositories | TrendScout</title></head>
+<body style="max-width:820px;margin:36px auto;padding:0 18px;font:16px/1.75 system-ui;background:#0b1020;color:#e8eefc">
+<p><a href="/">← TrendScout home</a></p><h1>How to Find Trending GitHub Repositories</h1>
+<p>GitHub stars are useful, but a large star count mostly tells you that a project attracted attention at some point. To discover what is rising now, combine topic-focused search with recent activity and repeated measurements.</p>
+<h2>1. Search by a concrete topic</h2><p>Start with specific areas such as AI coding agents, MCP servers, local LLM inference, browser automation or developer workbenches. Broad searches return noise; focused queries make it easier to compare projects serving similar needs.</p>
+<h2>2. Check whether the project is active</h2><p>Look at the last push, release history, issue activity and whether maintainers respond to reports. A popular repository that has been inactive for months may not be the best signal of a growing tool.</p>
+<h2>3. Separate total stars from recent growth</h2><p>Total stars are cumulative. A better momentum signal is the change in stars over a consistent period, such as seven days. Capture a baseline, wait, then compare the same repository again. If there is no baseline, mark growth as unknown rather than guessing.</p>
+<h2>4. Read the README and inspect project fit</h2><p>Check installation steps, supported platforms, license, maintenance expectations and whether the project solves a real problem. Trend scores are discovery aids, not proof of quality or security.</p>
+<h2>5. Compare projects in context</h2><p>Compare similar categories rather than ranking an early-stage MCP server against a mature framework solely by total stars. Consider recency, documentation, community activity and your use case.</p>
+<h2>Explore current discoveries</h2><p>TrendScout scans public GitHub metadata across AI agents, MCP, local AI and developer tooling. It stores dated snapshots and only reports seven-day growth when a comparable historical snapshot exists.</p>
+<p><a href="/dashboard/">Explore the live TrendScout dashboard →</a></p>
+<p><small>TrendScout is an independent open-source discovery project. Its rankings are heuristic and are not endorsements or security reviews.</small></p>
+</body></html>
+GUIDE
+
 cat > "$OUT/robots.txt" <<'ROBOTS'
 User-agent: *
 Allow: /
@@ -115,6 +137,7 @@ cat > "$OUT/sitemap.xml" <<'SITEMAP'
   <url><loc>https://trendscout.pages.dev/</loc></url>
   <url><loc>https://trendscout.pages.dev/dashboard/</loc></url>
   <url><loc>https://trendscout.pages.dev/about/</loc></url>
+  <url><loc>https://trendscout.pages.dev/guides/find-trending-github-repositories/</loc></url>
   <url><loc>https://trendscout.pages.dev/reports/latest.md</loc></url>
 </urlset>
 SITEMAP
