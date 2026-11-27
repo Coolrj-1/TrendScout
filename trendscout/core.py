@@ -51,7 +51,6 @@ def normalize(repo: dict, category: str, captured_at: str) -> dict:
         "has_wiki": bool(repo.get("has_wiki", False)),
         "has_pages": bool(repo.get("has_pages", False)),
         "owner_type": (repo.get("owner") or {}).get("type") or "Unknown",
-        "archived": bool(repo.get("archived", False)),
     }
 
 def load_json(path: Path, default):
