@@ -1,0 +1,37 @@
+name: TrendScout quality checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Build static website
+        run: bash scripts/build_pages.sh
+      - name: Validate generated site
+        run: |
+          test -s public/index.html
+          test -s public/dashboard/index.html
+          test -s public/reports/latest.json
+          test -s public/sitemap.xml
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path("public/reports/latest.json").read_text())
+          assert isinstance(data.get("repositories"), list)
+          assert isinstance(data.get("external_discovery", {}), dict)
+          print(f"Validated {len(data['repositories'])} repositories")
+          PY
