@@ -2,6 +2,8 @@
 
 **A lightweight, open-source radar for rising GitHub projects.**
 
+Live dashboard: https://trendscout.pages.dev/ · [Explore discoveries](https://trendscout.pages.dev/dashboard/) · [Methodology](https://trendscout.pages.dev/about/)
+
 TrendScout collects public GitHub repository data across fast-moving developer topics, stores daily snapshots, compares current stars with older snapshots, and produces a ranked Markdown report plus JSON data.
 
 ## Why this project?
@@ -57,7 +59,7 @@ This is a heuristic, not a measure of product quality. Star counts can be noisy,
 
 ## Dashboard and latest report
 
-The dashboard is also ready for Cloudflare Pages. In Cloudflare, connect this repository with build command `bash scripts/build_pages.sh` and build output directory `public` (no framework preset and no root-directory override). The build script publishes the dashboard and its JSON/Markdown reports together, so the dashboard data path works on the deployed site. The site root redirects visitors to `/dashboard/`.
+The dashboard is deployed on Cloudflare Pages. The build also publishes an SEO-friendly homepage, methodology page, `robots.txt`, and `sitemap.xml`. In Cloudflare, connect this repository with build command `bash scripts/build_pages.sh` and build output directory `public` (no framework preset and no root-directory override). The build script publishes the dashboard and its JSON/Markdown reports together, so the dashboard data path works on the deployed site. The site root redirects visitors to `/dashboard/`.
 
 
 - Dashboard source: [dashboard/index.html](dashboard/index.html)
@@ -71,6 +73,10 @@ python -m http.server 8000
 ```
 
 Then open `http://localhost:8000/dashboard/`. The dashboard loads its data from `reports/latest.json`.
+
+## Website discovery
+
+The public site includes descriptive page titles, canonical URLs, Open Graph metadata, a crawlable homepage, a methodology page, `robots.txt`, and an XML sitemap. Submit `https://trendscout.pages.dev/sitemap.xml` to Google Search Console and Bing Webmaster Tools to request indexing; indexing and rankings are controlled by those search engines and are not guaranteed.
 
 ## Run tests
 
@@ -98,7 +104,7 @@ trendscout/
 - [ ] Add GitHub Trending HTML as a second discovery source
 - [ ] Add Hacker News launch signals
 - [ ] Add category-specific score weights
-- [ ] Add a small static dashboard
+- [x] Publish a responsive static dashboard
 - [ ] Add repository health signals (recent commits, issue response, releases)
 
 ## Data and privacy
