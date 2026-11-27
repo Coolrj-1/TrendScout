@@ -1,38 +1,140 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1020">
 <title>TrendScout — GitHub Trend Radar</title>
 <style>
-:root{color-scheme:dark;--bg:#0b1020;--panel:#121a2d;--line:#26334d;--text:#e8eefc;--muted:#9aa9c3;--accent:#7c9cff;--green:#63d6a5}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#182746 0,#0b1020 55%);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
-main{max-width:1120px;margin:auto;padding:36px 20px 70px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.brand{font-size:13px;letter-spacing:.14em;color:var(--accent);font-weight:800}.hero h1{font-size:clamp(34px,6vw,58px);line-height:1.02;margin:12px 0}.hero p{color:var(--muted);max-width:700px}.stamp{color:var(--muted);font-size:13px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:26px 0}.stat,.card,.tablewrap{background:linear-gradient(145deg,#141f35,#10182a);border:1px solid var(--line);border-radius:16px;padding:18px}.stat strong{font-size:28px;display:block}.stat span{color:var(--muted);font-size:13px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0}.toolbar input,.toolbar select{background:#10182a;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:12px;font:inherit}.toolbar input{flex:1;min-width:190px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{display:flex;flex-direction:column;gap:10px}.card h2{font-size:17px;margin:0}.card h2 a{color:var(--text);text-decoration:none}.card h2 a:hover{color:var(--accent)}.desc{color:var(--muted);font-size:14px;min-height:42px}.meta{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:13px}.pill{font-size:11px;color:var(--green);border:1px solid #2a6b59;border-radius:30px;padding:3px 9px;width:max-content}.section{margin:34px 0 14px;font-size:20px}.tablewrap{overflow:auto;padding:0}.table{width:100%;border-collapse:collapse;min-width:650px}.table th,.table td{text-align:left;padding:13px 15px;border-bottom:1px solid var(--line)}.table th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em}.table a{color:var(--accent);text-decoration:none}.note{color:var(--muted);font-size:13px;margin-top:20px}.error{color:#ff9c9c}
-@media(max-width:650px){.stats{grid-template-columns:1fr}.grid{grid-template-columns:1fr}main{padding:25px 14px 50px}}
+:root{color-scheme:dark;--bg:#0b1020;--panel:#121a2d;--line:#26334d;--text:#e8eefc;--muted:#9aa9c3;--accent:#8da8ff;--green:#63d6a5;--red:#ff9292}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#182746 0,#0b1020 55%);color:var(--text);font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:1120px;margin:auto;padding:34px 20px 64px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{font-size:12px;letter-spacing:.16em;color:var(--accent);font-weight:800}
+.stamp,.muted{color:var(--muted);font-size:13px}
+.hero{padding:28px 0 8px}
+.hero h1{font-size:clamp(36px,7vw,62px);line-height:1.02;letter-spacing:-.04em;margin:10px 0 16px}
+.hero p{color:var(--muted);max-width:720px;font-size:16px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:25px 0}
+.stat,.card,.tablewrap,.notice{background:linear-gradient(145deg,#141f35,#10182a);border:1px solid var(--line);border-radius:16px}
+.stat{padding:18px}.stat strong{font-size:28px;display:block}.stat span{color:var(--muted);font-size:13px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0}
+.toolbar input,.toolbar select,.toolbar button{background:#10182a;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:12px;font:inherit}
+.toolbar input{flex:1;min-width:190px}.toolbar select{min-width:150px}
+.toolbar button{cursor:pointer}.toolbar button:hover{border-color:var(--accent)}
+.section{margin:32px 0 13px;font-size:20px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card h2{font-size:17px;margin:0;overflow-wrap:anywhere}
+.card h2 a,.table a{color:var(--text);text-decoration:none}
+.card h2 a:hover,.table a:hover{color:var(--accent)}
+.desc{color:var(--muted);font-size:14px;overflow-wrap:anywhere}
+.pill{font-size:11px;color:var(--green);border:1px solid #2a6b59;border-radius:30px;padding:3px 9px;width:max-content}
+.meta{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+.growth{font-size:12px;border-radius:20px;padding:3px 9px;width:max-content;border:1px solid var(--line);color:var(--muted)}
+.growth.up{color:var(--green);border-color:#2a6b59}.growth.down{color:var(--red);border-color:#75414b}
+.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:690px}
+.table th,.table td{text-align:left;padding:13px 15px;border-bottom:1px solid var(--line)}
+.table th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+.table a{color:var(--accent)}
+.notice{padding:15px;color:var(--muted);margin:18px 0}
+.error{color:var(--red)}.footer{color:var(--muted);font-size:12px;margin-top:22px}
+@media(max-width:650px){main{padding:23px 14px 48px}.stats{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.hero{padding-top:22px}.hero p{font-size:15px}}
 </style>
 </head>
-<body><main>
-<div class="top"><div class="brand">TREND RADAR / OPEN SOURCE</div><div class="stamp" id="stamp">Loading snapshot…</div></div>
-<header class="hero"><h1>Find what's<br>rising on GitHub.</h1><p>TrendScout scans emerging developer projects across AI agents, MCP, local inference and creator tooling. This is an early discovery snapshot—not a claim of measured week-over-week growth.</p></header>
-<section class="stats"><div class="stat"><strong id="count">—</strong><span>Projects in this snapshot</span></div><div class="stat"><strong id="stars">—</strong><span>Combined stars (sample)</span></div><div class="stat"><strong id="cats">—</strong><span>Trend categories</span></div></section>
-<div class="toolbar"><input id="search" placeholder="Search repositories, topics or descriptions…"><select id="category"><option value="">All categories</option></select></div>
-<h2 class="section">Featured discoveries</h2><section class="grid" id="cards"></section>
-<h2 class="section">Snapshot table</h2><div class="tablewrap"><table class="table"><thead><tr><th>Repository</th><th>Category</th><th>Stars</th><th>Forks</th><th>Language</th></tr></thead><tbody id="rows"></tbody></table></div>
-<p class="note" id="method"></p>
+<body>
+<main>
+<div class="top"><div class="brand">TREND RADAR / OPEN SOURCE</div><div class="stamp" id="stamp">Loading latest scan…</div></div>
+<header class="hero">
+<h1>Find what's<br>rising on GitHub.</h1>
+<p>Discover emerging developer projects across AI agents, MCP, local inference, desktop automation and creator tools. TrendScout separates measured growth from projects that are still building history.</p>
+</header>
+<section class="stats">
+<div class="stat"><strong id="count">—</strong><span>Projects found</span></div>
+<div class="stat"><strong id="stars">—</strong><span>Combined stars in this scan</span></div>
+<div class="stat"><strong id="cats">—</strong><span>Trend categories</span></div>
+</section>
+<div class="toolbar">
+<input id="search" type="search" placeholder="Search projects, topics or descriptions…" aria-label="Search projects">
+<select id="category" aria-label="Filter by category"><option value="">All categories</option></select>
+<select id="sort" aria-label="Sort projects"><option value="trend">Sort: Trend score</option><option value="stars">Sort: Most stars</option><option value="growth">Sort: 7-day growth</option><option value="recent">Sort: Recently updated</option></select>
+<button id="refresh" type="button">Refresh data</button>
+</div>
+<div id="notice" class="notice" role="status">Loading TrendScout data…</div>
+<h2 class="section">Discoveries</h2><section class="grid" id="cards"></section>
+<h2 class="section">All projects</h2>
+<div class="tablewrap"><table class="table"><thead><tr><th>Repository</th><th>Category</th><th>Stars</th><th>7-day change</th><th>Language</th></tr></thead><tbody id="rows"></tbody></table></div>
+<p class="footer" id="method"></p>
 </main>
 <script>
+const $=s=>document.querySelector(s);
 let all=[];
 const fmt=n=>Number(n||0).toLocaleString();
-function render(){
- const q=document.querySelector('#search').value.toLowerCase(),cat=document.querySelector('#category').value;
- const list=all.filter(r=>(!cat||r.category===cat)&&[r.full_name,r.description,r.category,(r.topics||[]).join(' ')].join(' ').toLowerCase().includes(q));
- document.querySelector('#cards').innerHTML=list.map(r=>'<article class="card"><span class="pill">'+r.category+'</span><h2><a href="'+r.url+'" target="_blank" rel="noopener">'+r.full_name+'</a></h2><div class="desc">'+(r.description||'No description provided.')+'</div><div class="meta"><span>★ '+fmt(r.stars)+'</span><span>⑂ '+fmt(r.forks)+' forks</span><span>'+r.language+'</span></div></article>').join('')||'<p>No matching projects.</p>';
- document.querySelector('#rows').innerHTML=list.map(r=>'<tr><td><a href="'+r.url+'" target="_blank" rel="noopener">'+r.full_name+'</a></td><td>'+r.category+'</td><td>'+fmt(r.stars)+'</td><td>'+fmt(r.forks)+'</td><td>'+r.language+'</td></tr>').join('');
+const safeDate=s=>{if(!s)return "Unknown";const d=new Date(s);return Number.isNaN(d.getTime())?"Unknown":d.toLocaleDateString()};
+function normalizeReport(d){
+ const repos=d.repositories||d.ranked||d.snapshot?.repositories||[];
+ return repos.map(r=>({...r,url:r.url||r.html_url||"",stars:Number(r.stars??r.stargazers_count??0),forks:Number(r.forks??r.forks_count??0),language:r.language||"Unknown",topics:r.topics||[],category:r.category||"Uncategorized"}));
 }
-fetch('../reports/latest.json').then(r=>{if(!r.ok)throw Error('Could not load report JSON');return r.json()}).then(d=>{
- all=d.repositories;document.querySelector('#count').textContent=fmt(all.length);document.querySelector('#stars').textContent=fmt(all.reduce((s,r)=>s+r.stars,0));document.querySelector('#cats').textContent=fmt(new Set(all.map(r=>r.category)).size);
- document.querySelector('#stamp').textContent='Updated '+new Date(d.generated_at).toLocaleString();
- document.querySelector('#method').textContent=d.methodology;
- const sel=document.querySelector('#category');d.categories.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
- render();document.querySelector('#search').addEventListener('input',render);sel.addEventListener('change',render);
-}).catch(e=>{document.querySelector('#stamp').innerHTML='<span class="error">'+e.message+'</span>';});
-</script></body></html>
+function growthLabel(r){
+ if(r.stars_7d===null||r.stars_7d===undefined)return "Building history";
+ const n=Number(r.stars_7d);
+ return (n>0?"+":"")+fmt(n)+" stars / 7d";
+}
+function make(tag,cls,text){
+ const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=String(text);return e;
+}
+function validRepoUrl(url){
+ try{const u=new URL(url);return u.protocol==="https:"&&u.hostname==="github.com"}catch{return false}
+}
+function sorted(list){
+ const mode=$("#sort").value;
+ return [...list].sort((a,b)=>{
+  if(mode==="stars")return b.stars-a.stars;
+  if(mode==="growth")return (b.stars_7d??-Infinity)-(a.stars_7d??-Infinity);
+  if(mode==="recent")return new Date(b.pushed_at||0)-new Date(a.pushed_at||0);
+  return (b.trend_score??-Infinity)-(a.trend_score??-Infinity)||b.stars-a.stars;
+ });
+}
+function render(){
+ const q=$("#search").value.trim().toLowerCase(),cat=$("#category").value;
+ const list=sorted(all.filter(r=>(!cat||r.category===cat)&&[r.full_name,r.description,r.category,r.topics.join(" ")].join(" ").toLowerCase().includes(q)));
+ $("#cards").replaceChildren();$("#rows").replaceChildren();
+ if(!list.length){$("#cards").append(make("p","muted","No matching projects. Try another search or category."));return;}
+ for(const r of list){
+  const card=make("article","card"),pill=make("span","pill",r.category),h=make("h2"),desc=make("div","desc",r.description||"No description provided."),meta=make("div","meta");
+  if(validRepoUrl(r.url)){const a=make("a","",r.full_name);a.href=r.url;a.target="_blank";a.rel="noopener noreferrer";h.append(a);}else h.textContent=r.full_name||"Unknown repository";
+  const growth=make("span","growth "+(Number(r.stars_7d)>0?"up":Number(r.stars_7d)<0?"down":""),growthLabel(r));
+  meta.append(make("span","", "★ "+fmt(r.stars)),make("span","","⑂ "+fmt(r.forks)+" forks"),make("span","",r.language));
+  card.append(pill,h,desc,meta,growth);
+  if(r.pushed_at)card.append(make("div","muted","Updated "+safeDate(r.pushed_at)));
+  $("#cards").append(card);
+  const tr=document.createElement("tr"),tdName=document.createElement("td");
+  if(validRepoUrl(r.url)){const a=make("a","",r.full_name);a.href=r.url;a.target="_blank";a.rel="noopener noreferrer";tdName.append(a);}else tdName.textContent=r.full_name||"Unknown";
+  tr.append(tdName,make("td","",r.category),make("td","",fmt(r.stars)),make("td","",growthLabel(r)),make("td","",r.language));$("#rows").append(tr);
+ }
+}
+async function load(){
+ $("#notice").textContent="Fetching the latest published scan…";
+ try{
+  const response=await fetch("../reports/latest.json?cache="+Date.now(),{cache:"no-store"});
+  if(!response.ok)throw new Error("Report request failed (HTTP "+response.status+").");
+  const d=await response.json();all=normalizeReport(d);
+  const categories=d.categories||[...new Set(all.map(r=>r.category))].sort();
+  $("#count").textContent=fmt(all.length);
+  $("#stars").textContent=fmt(all.reduce((sum,r)=>sum+r.stars,0));
+  $("#cats").textContent=fmt(new Set(all.map(r=>r.category)).size);
+  const stamp=d.generated_at||d.captured_at||d.snapshot?.captured_at;
+  $("#stamp").textContent=stamp?"Updated "+new Date(stamp).toLocaleString():"Latest scan loaded";
+  $("#notice").textContent=all.length?all.length+" projects loaded. Growth appears only when a comparable week-old snapshot exists.":"The scan completed, but no projects matched the configured searches.";
+  $("#method").textContent=d.methodology||"TrendScout uses public GitHub repository metadata. Star totals are popularity signals; growth is shown only when historical snapshots are available.";
+  const sel=$("#category"),current=sel.value;sel.replaceChildren(make("option","","All categories"));sel.firstChild.value="";
+  categories.forEach(c=>{const o=make("option","",c);o.value=c;sel.append(o)});sel.value=current;
+  render();
+ }catch(e){$("#notice").textContent="Could not load trend data: "+e.message+" Check the latest scan and GitHub Pages deployment.";$("#notice").classList.add("error");$("#stamp").textContent="Data unavailable";}
+}
+$("#search").addEventListener("input",render);$("#category").addEventListener("change",render);$("#sort").addEventListener("change",render);$("#refresh").addEventListener("click",load);
+load();
+</script>
+</body>
+</html>
