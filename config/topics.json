@@ -1,0 +1,5 @@
+{
+  "topics": ["AI coding agent", "MCP server", "agent skills", "computer use agent", "local AI inference", "AI video editor"],
+  "per_query": 30,
+  "lookback_days": 30
+}
