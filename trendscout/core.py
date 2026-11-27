@@ -131,7 +131,28 @@ def run():
     snapshot_path = SNAPSHOTS / f"{snapshot['date']}.json"
     snapshot_path.write_text(json.dumps(snapshot, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     ranked = score_repositories(snapshot)
-    (REPORTS / "latest.json").write_text(json.dumps({"snapshot": snapshot, "ranked": ranked}, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    categories = sorted({repo["category"] for repo in ranked})
+    dashboard_repositories = []
+    for repo in ranked:
+        dashboard_repositories.append({
+            **repo,
+            "url": repo.get("html_url", ""),
+        })
+    dashboard_report = {
+        "schema_version": 1,
+        "generated_at": snapshot["captured_at"],
+        "source": "GitHub public repository search and repository metadata API",
+        "methodology": (
+            "Projects are discovered using the configured topic searches and lookback window. "
+            "Seven-day growth is shown only when a comparable snapshot from 6–8 days earlier exists. "
+            "New/untracked projects do not have enough history for a growth claim."
+        ),
+        "categories": categories,
+        "repositories": dashboard_repositories,
+    }
+    (REPORTS / "latest.json").write_text(
+        json.dumps(dashboard_report, indent=2, ensure_ascii=False) + "\\n", encoding="utf-8"
+    )
     (REPORTS / "latest.md").write_text(render_markdown(snapshot, ranked), encoding="utf-8")
     print(f"Saved {len(snapshot['repositories'])} repositories to {snapshot_path}")
     print(f"Updated {REPORTS / 'latest.md'}")
