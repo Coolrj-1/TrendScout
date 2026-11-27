@@ -55,6 +55,20 @@ When a comparable snapshot exists:
 
 This is a heuristic, not a measure of product quality. Star counts can be noisy, snapshots may be incomplete, and new repositories can have unusually high percentage growth. Reports label missing comparisons as `new/untracked` rather than inventing growth.
 
+## Dashboard and latest report
+
+- Dashboard source: [dashboard/index.html](dashboard/index.html)
+- Latest report: [reports/latest.md](reports/latest.md)
+- Latest machine-readable snapshot: [reports/latest.json](reports/latest.json)
+
+To preview the dashboard locally, run a static server from the repository root:
+
+```bash
+python -m http.server 8000
+```
+
+Then open `http://localhost:8000/dashboard/`. The dashboard loads its data from `reports/latest.json`.
+
 ## Run tests
 
 ```bash
