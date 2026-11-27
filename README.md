@@ -57,6 +57,9 @@ This is a heuristic, not a measure of product quality. Star counts can be noisy,
 
 ## Dashboard and latest report
 
+The dashboard is also ready for Cloudflare Pages. In Cloudflare, connect this repository with build command `bash scripts/build_pages.sh` and build output directory `public` (no framework preset and no root-directory override). The build script publishes the dashboard and its JSON/Markdown reports together, so the dashboard data path works on the deployed site. The site root redirects visitors to `/dashboard/`.
+
+
 - Dashboard source: [dashboard/index.html](dashboard/index.html)
 - Latest report: [reports/latest.md](reports/latest.md)
 - Latest machine-readable snapshot: [reports/latest.json](reports/latest.json)
