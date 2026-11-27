@@ -45,6 +45,19 @@ main{max-width:1120px;margin:auto;padding:34px 20px 64px}
 .meta{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:13px}
 .growth{font-size:12px;border-radius:20px;padding:3px 9px;width:max-content;border:1px solid var(--line);color:var(--muted)}
 .growth.up{color:var(--green);border-color:#2a6b59}.growth.down{color:var(--red);border-color:#75414b}
+.details{border-top:1px solid var(--line);padding-top:10px;margin-top:2px}
+.details summary{cursor:pointer;color:var(--accent);font-size:13px;font-weight:650}
+.detailgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+.detailitem{background:#0c1425;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12px;overflow-wrap:anywhere}
+.detailitem b{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.05em}
+.topics{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.topic{font-size:11px;border:1px solid var(--line);border-radius:20px;padding:3px 8px;color:var(--muted)}
+.clone{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:8px 0}
+.clone code{font-size:11px;overflow-wrap:anywhere;color:var(--text);background:#080e1b;padding:7px;border-radius:7px}
+.clone button{background:#263653;color:var(--text);border:1px solid var(--line);border-radius:7px;padding:7px 10px;cursor:pointer;font:inherit;font-size:12px}
+.howto{background:#121a2d;border:1px solid var(--line);border-radius:14px;padding:16px;margin:18px 0}
+.howto h2{margin-top:0;font-size:18px}
+@media(max-width:420px){.detailgrid{grid-template-columns:1fr}}
 .tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:690px}
 .table th,.table td{text-align:left;padding:13px 15px;border-bottom:1px solid var(--line)}
 .table th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
@@ -73,6 +86,7 @@ main{max-width:1120px;margin:auto;padding:34px 20px 64px}
 <button id="refresh" type="button">Refresh data</button>
 </div>
 <div id="notice" class="notice" role="status">Loading TrendScout data…</div>
+<section class="howto"><h2>How to use TrendScout</h2><ol><li>Search by project name, topic or technology.</li><li>Filter by category and sort by stars, recent activity or measured 7-day growth.</li><li>Open <b>Repository details</b> to inspect license, topics, activity and project settings.</li><li>Use the GitHub README, releases, issues and security information before installing anything.</li><li>Copy the clone command or open the repository on GitHub.</li></ol><p class="muted">Stars show popularity, not quality. Check the source and permissions before running code.</p></section>
 <h2 class="section">Discoveries</h2><section class="grid" id="cards"></section>
 <h2 class="section">All projects</h2>
 <div class="tablewrap"><table class="table"><thead><tr><th>Repository</th><th>Category</th><th>Stars</th><th>7-day change</th><th>Language</th></tr></thead><tbody id="rows"></tbody></table></div>
@@ -85,7 +99,7 @@ const fmt=n=>Number(n||0).toLocaleString();
 const safeDate=s=>{if(!s)return "Unknown";const d=new Date(s);return Number.isNaN(d.getTime())?"Unknown":d.toLocaleDateString()};
 function normalizeReport(d){
  const repos=d.repositories||d.ranked||d.snapshot?.repositories||[];
- return repos.map(r=>({...r,url:r.url||r.html_url||"",stars:Number(r.stars??r.stargazers_count??0),forks:Number(r.forks??r.forks_count??0),language:r.language||"Unknown",topics:r.topics||[],category:r.category||"Uncategorized"}));
+ return repos.map(r=>({...r,url:r.url||r.html_url||"",stars:Number(r.stars??r.stargazers_count??0),forks:Number(r.forks??r.forks_count??0),language:r.language||"Unknown",topics:r.topics||[],category:r.category||"Uncategorized",license:r.license||"Not provided",default_branch:r.default_branch||"main",open_issues:Number(r.open_issues??r.open_issues_count??0),watchers:Number(r.watchers??r.watchers_count??0),size_kb:Number(r.size_kb??r.size??0),visibility:r.visibility||"public",archived:Boolean(r.archived),has_wiki:Boolean(r.has_wiki),has_pages:Boolean(r.has_pages),owner_type:r.owner_type||"Unknown"}));
 }
 function growthLabel(r){
  if(r.stars_7d===null||r.stars_7d===undefined)return "Building history";
@@ -118,7 +132,19 @@ function render(){
   const growth=make("span","growth "+(Number(r.stars_7d)>0?"up":Number(r.stars_7d)<0?"down":""),growthLabel(r));
   meta.append(make("span","", "★ "+fmt(r.stars)),make("span","","⑂ "+fmt(r.forks)+" forks"),make("span","",r.language));
   card.append(pill,h,desc,meta,growth);
-  if(r.pushed_at)card.append(make("div","muted","Updated "+safeDate(r.pushed_at)));
+  if(r.pushed_at)card.append(make("div","muted","Last push: "+safeDate(r.pushed_at)));
+  const details=make("details","details"),summary=make("summary","", "Repository details & how to use");
+  const dg=make("div","detailgrid");
+  const fields=[["Created",safeDate(r.created_at)],["License",r.license||"Not provided"],["Default branch",r.default_branch||"main"],["Open issues",fmt(r.open_issues)],["Watchers",fmt(r.watchers)],["Repository size",r.size_kb?fmt(r.size_kb)+" KB":"Not provided"],["Visibility",r.visibility||"Public"],["Owner type",r.owner_type||"Unknown"],["Archived",r.archived?"Yes":"No"],["Wiki",r.has_wiki?"Available":"Not enabled"],["GitHub Pages",r.has_pages?"Enabled":"Not enabled"]];
+  fields.forEach(([label,value])=>{const item=make("div","detailitem");item.append(make("b","",label),document.createTextNode(value));dg.append(item)});
+  details.append(summary,dg);
+  if(Array.isArray(r.topics)&&r.topics.length){details.append(make("b","","Topics"));const tags=make("div","topics");r.topics.forEach(t=>tags.append(make("span","topic",t)));details.append(tags);}
+  const clone=make("div","clone"),cmd=document.createElement("code");cmd.textContent="git clone "+(r.url||"");clone.append(cmd);
+  const copy=make("button","","Copy clone command");copy.type="button";copy.addEventListener("click",()=>{if(navigator.clipboard?.writeText){navigator.clipboard.writeText(cmd.textContent).then(()=>{copy.textContent="Copied!"}).catch(()=>{copy.textContent="Copy unavailable"});}else{copy.textContent="Copy unavailable"}});
+  clone.append(copy);details.append(clone);
+  if(r.homepage){const hp=make("a","","Project website →");hp.href=r.homepage;hp.target="_blank";hp.rel="noopener noreferrer";details.append(hp);}
+  const gh=make("a","","Open repository on GitHub →");gh.href=r.url;gh.target="_blank";gh.rel="noopener noreferrer";details.append(gh);
+  card.append(details);
   $("#cards").append(card);
   const tr=document.createElement("tr"),tdName=document.createElement("td");
   if(validRepoUrl(r.url)){const a=make("a","",r.full_name);a.href=r.url;a.target="_blank";a.rel="noopener noreferrer";tdName.append(a);}else tdName.textContent=r.full_name||"Unknown";
