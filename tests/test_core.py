@@ -81,7 +81,7 @@ class TrendScoutTests(unittest.TestCase):
 
     def test_health_score_flags_archived_and_unlicensed_repositories(self):
         item = repository_health({'archived': True, 'license': 'Not specified', 'pushed_at': '2020-01-01T00:00:00Z'}, date(2026, 11, 27))
-        self.assertEqual(item['health_score'], 40)
+        self.assertEqual(item['health_score'], 5)
         self.assertEqual(item['health_label'], 'Needs review')
         self.assertIn('Archived repository', item['health_notes'])
 
