@@ -49,6 +49,28 @@ class TrendScoutTests(unittest.TestCase):
             self.assertIsNone(ranked[0]["stars_7d"])
             self.assertEqual(ranked[0]["trend_status"], "new/untracked")
 
+
+    def test_30_day_growth_and_health_signals(self):
+        with tempfile.TemporaryDirectory() as temp:
+            folder = Path(temp)
+            old = {"repositories": [{"full_name": "demo/project", "stars": 80}]}
+            (folder / "2026-10-28.json").write_text(__import__("json").dumps(old))
+            snapshot = {"date": "2026-11-27", "repositories": [{
+                "full_name": "demo/project", "stars": 120, "created_at": "2026-11-01T00:00:00Z",
+                "pushed_at": "2026-11-26T00:00:00Z", "license": "MIT", "open_issues": 2,
+                "category": "AI", "html_url": "https://github.com/demo/project", "language": "Python"}]}
+            ranked = score_repositories(snapshot, folder)
+            self.assertEqual(ranked[0]["stars_30d"], 40)
+            self.assertEqual(ranked[0]["health_score"], 100)
+            self.assertEqual(ranked[0]["health_label"], "Strong signals")
+
+    def test_archived_unlicensed_repo_gets_health_warnings(self):
+        from trendscout.core import repository_health
+        result = repository_health({"archived": True, "license": "Not specified",
+                                    "pushed_at": "2024-01-01T00:00:00Z"}, date(2026, 11, 27))
+        self.assertLess(result["health_score"], 40)
+        self.assertGreaterEqual(len(result["health_reasons"]), 3)
+
     def test_markdown_report(self):
         text = render_markdown({"date": "2026-11-27"}, [{
             "full_name": "demo/project", "html_url": "https://github.com/demo/project",
