@@ -41,7 +41,7 @@ Code: https://github.com/Coolrj-1/TrendScout
 
 I'm interested in feedback on the categories, ranking signals and what would make this more useful for discovering projects.
 
-**Posting note:** Use Show HN only when the live experience is ready for strangers to try and the maker is available to answer questions. Do not ask friends to upvote.
+**Important HN rule:** Hacker News explicitly prohibits generated or AI-edited text in posts/comments. The draft above is a planning reference only; the maker must write the actual submission and every reply entirely by hand, without AI drafting or editing. Only post when the live experience is ready for strangers to try and the maker is available to answer questions. Do not ask friends to upvote. See https://news.ycombinator.com/newsguidelines.html#generated and https://news.ycombinator.com/showhn.html.
 
 ## Reddit draft
 
@@ -76,16 +76,16 @@ The article must be a substantive build story with implementation details and le
 
 - **AlternativeTo:** Potentially suitable only if reviewers accept a project-discovery website as an application. Add it manually after creating and verifying an account. Describe it as a GitHub discovery dashboard, not a GitHub alternative.
 - **SaaSHub:** Current submission guidance says free subdomains such as `*.pages.dev` are not accepted. Do not submit until TrendScout has a custom domain. SaaSHub also asks for competitors and domain-based product verification.
-- **Product Hunt:** Requires a personal account with posting access, product details, a logo and at least one gallery image. Save as a draft first; do not schedule until the page and screenshots are ready.
+- **Product Hunt:** Requires a personal account with verified email, product details, a logo and at least one gallery image. New personal accounts generally need to be at least one week old before posting (newsletter access may allow earlier posting). Save as a draft first; do not schedule until the page and screenshots are ready. See https://help.producthunt.com/en/articles/481909-how-can-i-get-access-to-post and https://help.producthunt.com/en/articles/17834537-4-build-your-product-page.
 - **DEV Community:** Posts must provide substantial value and must not be primarily designed for promotion or backlinks.
-- **Hacker News:** Show HN is for something people can actually try. A directory/listing alone is not enough; explain the working tool and be available for discussion.
+- **Hacker News:** Show HN is for something people can actually try. A directory/listing alone is not enough; explain the working tool and be available for discussion. HN prohibits AI-generated or AI-edited post/comment text, so the maker must write all HN text themselves without AI assistance. See https://news.ycombinator.com/newsguidelines.html#generated.
 
 ## Submission status
 
 | Platform | Status | Next step |
 |---|---|---|
-| Product Hunt | Prepared, not submitted | Maker signs in, creates draft, adds logo and product screenshots |
-| Hacker News | Prepared, not submitted | Maker reviews the live experience and posts when ready |
+| Product Hunt | Prepared, not submitted | Maker creates and verifies personal account; wait for posting access (normally 7 days), then create draft and add assets |
+| Hacker News | Not ready | Maker must hand-write all post/comment text; first verify live product is fully usable |
 | Reddit | Draft prepared | Choose one relevant community and check its rules |
 | DEV Community | Article outline prepared | Write a useful technical build story |
 | AlternativeTo | Conditional | Confirm category fit and submit manually |
