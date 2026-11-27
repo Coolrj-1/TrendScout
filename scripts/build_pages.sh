@@ -6,7 +6,7 @@ OUT="$ROOT/public"
 SITE="https://trendscout.pages.dev"
 
 rm -rf "$OUT"
-mkdir -p "$OUT/dashboard" "$OUT/reports" "$OUT/about" "$OUT/privacy-policy" "$OUT/affiliate-disclosure" "$OUT/terms" "$OUT/contact" "$OUT/guides/ai-coding-agents" "$OUT/guides/mcp-servers" "$OUT/guides/using-trendscout" "$OUT/guides/github-repository-health" "$OUT/guides/ai-github-projects-to-watch" "$OUT/guides/find-trending-github-repositories" "$OUT/academy" "$OUT/academy/opencode-basics" "$OUT/academy/local-ai-ollama" "$OUT/academy/mcp-server-basics" "$OUT/academy/kotlin-android-first-app"
+mkdir -p "$OUT/dashboard" "$OUT/reports" "$OUT/about" "$OUT/privacy-policy" "$OUT/affiliate-disclosure" "$OUT/terms" "$OUT/contact" "$OUT/partners" "$OUT/guides/ai-coding-agents" "$OUT/guides/mcp-servers" "$OUT/guides/using-trendscout" "$OUT/guides/github-repository-health" "$OUT/guides/ai-github-projects-to-watch" "$OUT/guides/find-trending-github-repositories" "$OUT/academy" "$OUT/academy/opencode-basics" "$OUT/academy/local-ai-ollama" "$OUT/academy/mcp-server-basics" "$OUT/academy/kotlin-android-first-app"
 
 cp "$ROOT/dashboard/index.html" "$OUT/dashboard/index.html"
 cp "$ROOT/reports/latest.json" "$OUT/reports/latest.json"
@@ -15,6 +15,7 @@ cp "$ROOT/content/pages/privacy-policy.html" "$OUT/privacy-policy/index.html"
 cp "$ROOT/content/pages/affiliate-disclosure.html" "$OUT/affiliate-disclosure/index.html"
 cp "$ROOT/content/pages/terms.html" "$OUT/terms/index.html"
 cp "$ROOT/content/pages/contact.html" "$OUT/contact/index.html"
+cp "$ROOT/content/pages/partners.html" "$OUT/partners/index.html"
 cp "$ROOT/content/guides/ai-coding-agents.html" "$OUT/guides/ai-coding-agents/index.html"
 cp "$ROOT/content/guides/mcp-servers.html" "$OUT/guides/mcp-servers/index.html"
 cp "$ROOT/content/guides/using-trendscout.html" "$OUT/guides/using-trendscout/index.html"
@@ -104,7 +105,7 @@ section{margin:36px 0}.panel{background:linear-gradient(145deg,#141f35,#10182a);
 <section><h2>New to TrendScout?</h2><div class="panel"><p>Learn how to search, sort, inspect repository details and safely try a project.</p><p><a href="/guides/using-trendscout/">Read the step-by-step guide →</a></p></div></section>
 <section class="panel"><h2>Share TrendScout with developers</h2><p>Found a useful project? Share the live discovery dashboard with your team or developer community.</p><div class="actions"><a class="btn primary" href="https://www.reddit.com/submit?url=https%3A%2F%2Ftrendscout.pages.dev%2F&title=TrendScout%20%E2%80%94%20Discover%20rising%20GitHub%20projects">Share on Reddit</a><a class="btn" href="https://twitter.com/intent/tweet?text=Discover%20rising%20open-source%20projects%20with%20TrendScout&url=https%3A%2F%2Ftrendscout.pages.dev%2F">Share on X</a><a class="btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Ftrendscout.pages.dev%2F">Share on LinkedIn</a></div></section>
 <section><h2>Built in the open</h2><p>TrendScout is an open-source project. Explore the source, inspect the scanner and suggest improvements on GitHub.</p><p><a href="https://github.com/Coolrj-1/TrendScout">GitHub repository →</a></p></section>
-<footer>TrendScout · Independent open-source discovery · <a href="/dashboard/">Dashboard</a> · <a href="/about/">Methodology</a> · <a href="/privacy-policy/">Privacy</a> · <a href="/affiliate-disclosure/">Affiliate disclosure</a> · <a href="/terms/">Terms</a> · <a href="/contact/">Contact</a> · <a href="/feed.xml">RSS feed</a></footer>
+<footer>TrendScout · Independent open-source discovery · <a href="/dashboard/">Dashboard</a> · <a href="/about/">Methodology</a> · <a href="/privacy-policy/">Privacy</a> · <a href="/affiliate-disclosure/">Affiliate disclosure</a> · <a href="/terms/">Terms</a> · <a href="/contact/">Contact</a> · <a href="/partners/">Partners</a> · <a href="/feed.xml">RSS feed</a></footer>
 </main></body></html>
 HTML
 
@@ -219,6 +220,7 @@ cat > "$OUT/sitemap.xml" <<'SITEMAP'
   <url><loc>https://trendscout.pages.dev/affiliate-disclosure/</loc></url>
   <url><loc>https://trendscout.pages.dev/terms/</loc></url>
   <url><loc>https://trendscout.pages.dev/contact/</loc></url>
+  <url><loc>https://trendscout.pages.dev/partners/</loc></url>
   <url><loc>https://trendscout.pages.dev/guides/find-trending-github-repositories/</loc></url>
   <url><loc>https://trendscout.pages.dev/guides/ai-coding-agents/</loc></url>
   <url><loc>https://trendscout.pages.dev/guides/mcp-servers/</loc></url>
