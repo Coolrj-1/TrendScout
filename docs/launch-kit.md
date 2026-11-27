@@ -27,6 +27,31 @@ Hi Product Hunt! I built TrendScout to make it easier to discover interesting op
 
 I'd love feedback on three things: which technology categories should be added, which signals would make project discovery more useful, and what would help you assess a repository before trying it?
 
+
+## Product Hunt form-ready fields
+
+**Product URL:** https://trendscout.pages.dev/dashboard/
+
+**Short description (within 260 characters):**
+Discover emerging GitHub projects across AI agents, MCP, local AI and developer tools. Search, filter and inspect repository signals with dated reports and measured growth when historical data is available.
+
+**Tagline:** Discover rising projects across GitHub
+
+**Launch tags:** Developer Tools, Open Source, Artificial Intelligence
+
+**Maker role:** I made this
+
+**Product Hunt icon source:** [assets/product-hunt/icon.svg](../assets/product-hunt/icon.svg) — square 240×240 SVG. Upload it in the Product Hunt form if SVG is accepted; otherwise export to PNG at 240×240.
+
+**Gallery plan:**
+1. Dashboard overview showing Daily Trending Feed and search/filter controls.
+2. Project comparison and health checker in use.
+3. Technology landing pages and transparent methodology.
+
+Use real screenshots from the deployed product for gallery images. Do not use mockups that imply features not available on the live site. The generated launch concept is promotional artwork, not a substitute for product screenshots.
+
+**Maker comment:** Use the draft in the Product Hunt section above, but personalize it so it truthfully reflects the maker's experience and what is live on launch day.
+
 ## Hacker News — Show HN draft
 
 **Title:** Show HN: TrendScout – an open-source radar for rising GitHub projects
