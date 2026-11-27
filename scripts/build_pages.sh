@@ -71,7 +71,7 @@ section{margin:36px 0}.panel{background:linear-gradient(145deg,#141f35,#10182a);
 <header class="hero">
 <h1>Find what's rising on GitHub.</h1>
 <p>TrendScout helps developers discover promising open-source projects before they get lost in the noise. Explore emerging AI agents, Model Context Protocol (MCP) servers, local LLM tools, coding assistants and developer automation.</p>
-<div class="actions"><a class="btn primary" href="/dashboard/">Explore the live trend dashboard →</a><a class="btn" href="https://github.com/Coolrj-1/TrendScout">View the open-source project</a></div>
+<div class="actions"><a class="btn primary" href="/dashboard/">Explore the live trend dashboard →</a><a class="btn" href="https://github.com/Coolrj-1/TrendScout">View the open-source project</a><a class="btn" href="/partners/">Sponsor TrendScout</a></div>
 </header>
 <section class="cols">
 <article class="panel"><h2>Discover emerging tools</h2><p>Browse repositories grouped by developer-focused categories. Search by project name, topic or description, filter categories and sort by stars, recent activity or available growth data.</p></article>
