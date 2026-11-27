@@ -27,6 +27,9 @@ jobs:
           test -s public/dashboard/index.html
           test -s public/reports/latest.json
           test -s public/sitemap.xml
+          test -s public/partners/index.html
+          grep -q "Sponsored" public/partners/index.html
+          grep -q "/partners/" public/sitemap.xml
           python - <<'PY'
           import json
           from pathlib import Path
