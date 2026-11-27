@@ -1,5 +1,18 @@
 {
-  "topics": ["AI coding agent", "MCP server", "agent skills", "computer use agent", "local AI inference", "AI video editor"],
-  "per_query": 30,
-  "lookback_days": 30
+  "topics": [
+    "AI agent",
+    "agentic workflow",
+    "MCP server",
+    "AI coding agent",
+    "local LLM",
+    "local AI inference",
+    "computer use agent",
+    "AI video",
+    "AI automation",
+    "agent evaluation",
+    "browser agent",
+    "AI developer tools"
+  ],
+  "per_query": 50,
+  "lookback_days": 14
 }
