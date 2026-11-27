@@ -17,6 +17,9 @@ A November 27, 2026 scan of public trend trackers showed strong momentum around 
 - Saves dated snapshots in `data/snapshots/`
 - Estimates 7-day star growth when a snapshot from roughly a week earlier exists\n- Provides searchable project cards with repository metadata, topic tags and clone commands\n- Samples public pull-request discussions and review states (approvals, changes requested and comments) for recent PRs\n- Includes step-by-step guides for using TrendScout, evaluating AI coding agents and understanding MCP servers
 - Ranks projects using star growth, growth rate and freshness
+- Estimates 30-day star change when a comparable historical snapshot exists
+- Adds a transparent metadata-only repository health heuristic (archive status, license and push recency)
+- Collects public Hacker News story signals for configured AI/developer topics; this source is best-effort
 - Writes `reports/latest.md` and `reports/latest.json`
 - Runs daily with GitHub Actions
 - Uses only Python's standard library
@@ -59,7 +62,7 @@ This is a heuristic, not a measure of product quality. Star counts can be noisy,
 
 ## Using TrendScout\n\n1. Open the [live dashboard](https://trendscout.pages.dev/dashboard/).\n2. Search by repository name, keyword, language or topic.\n3. Filter by category and sort by trend score, lifetime stars, measured 7-day growth or last push.\n4. Expand **Repository details** to inspect metadata and copy the Git clone command.\n5. Open the project on GitHub and read its README, license, releases, issues and security policy before installing it.\n\nGuides: [How to use TrendScout](https://trendscout.pages.dev/guides/using-trendscout/) · [AI coding agents](https://trendscout.pages.dev/guides/ai-coding-agents/) · [MCP servers](https://trendscout.pages.dev/guides/mcp-servers/)\n\n## Repository metadata\n\nThe scanner stores GitHub fields including `full_name`, `description`, `html_url`, `stars`, `forks`, `language`, `topics`, `created_at`, `pushed_at`, `homepage`, `license`, `default_branch`, `open_issues`, `watchers`, `size_kb`, `visibility`, `archived`, `has_wiki`, `has_pages`, and `owner_type`. Optional fields may be empty or unavailable depending on the GitHub response. Public review summaries are sampled from up to three recently updated pull requests per selected repository; they are not lifetime review totals or private feedback. TrendScout does not fetch or execute repository source code.\n\n## Dashboard and latest report
 
-The dashboard is deployed on Cloudflare Pages. The build also publishes an SEO-friendly homepage, methodology page, `robots.txt`, and `sitemap.xml`. In Cloudflare, connect this repository with build command `bash scripts/build_pages.sh` and build output directory `public` (no framework preset and no root-directory override). The build script publishes the dashboard and its JSON/Markdown reports together, so the dashboard data path works on the deployed site. The site root redirects visitors to `/dashboard/`.
+The dashboard is deployed on Cloudflare Pages. GitHub Actions runs unit tests and validates the Cloudflare Pages build; it does not publish a competing GitHub Pages deployment. The build also publishes an SEO-friendly homepage, methodology page, `robots.txt`, and `sitemap.xml`. In Cloudflare, connect this repository with build command `bash scripts/build_pages.sh` and build output directory `public` (no framework preset and no root-directory override). The build script publishes the dashboard and its JSON/Markdown reports together, so the dashboard data path works on the deployed site. The site root redirects visitors to `/dashboard/`.
 
 
 - Dashboard source: [dashboard/index.html](dashboard/index.html)
@@ -73,6 +76,10 @@ python -m http.server 8000
 ```
 
 Then open `http://localhost:8000/dashboard/`. The dashboard loads its data from `reports/latest.json`.
+
+## Discovery signals and health scores
+
+The scanner optionally queries the public Hacker News Algolia search API for the configured `hackernews_queries`. HN results are attention signals (points/comments), not endorsements; temporary API failures do not stop GitHub scans. Repository health is a simple metadata heuristic using archive status, recognized license and last-push recency. It is not a security audit. Seven-day and 30-day star changes are shown only when comparable historical snapshots exist.
 
 ## Website discovery
 
@@ -113,10 +120,12 @@ trendscout/
 ## Roadmap
 
 - [ ] Add GitHub Trending HTML as a second discovery source
-- [ ] Add Hacker News launch signals
+- [x] Add Hacker News launch signals
 - [ ] Add category-specific score weights
 - [x] Publish a responsive static dashboard
-- [ ] Add repository health signals (recent commits, issue response, releases)
+- [x] Add basic metadata-only repository health signals
+- [x] Add 30-day historical star comparison
+- [ ] Add deeper repository health signals (release cadence, issue response, contributor activity)
 
 ## Data and privacy
 
