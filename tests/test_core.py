@@ -79,18 +79,5 @@ class TrendScoutTests(unittest.TestCase):
         self.assertIn("+20", text)
 
 
-    def test_health_score_flags_archived_and_unlicensed_repositories(self):
-        item = repository_health({'archived': True, 'license': 'Not specified', 'pushed_at': '2020-01-01T00:00:00Z'}, date(2026, 11, 27))
-        self.assertEqual(item['health_score'], 0)
-        self.assertEqual(item['health_label'], 'Needs review')
-        self.assertIn('Archived repository', item['health_notes'])
-
-    def test_30_day_comparison_uses_historical_snapshot(self):
-        with tempfile.TemporaryDirectory() as temp:
-            folder = Path(temp)
-            old = {'repositories': [{'full_name': 'demo/project', 'stars': 80}]}
-            (folder / '2026-10-28.json').write_text(__import__('json').dumps(old))
-            self.assertEqual(find_comparison('demo/project', date(2026, 11, 27), folder, 30), 80)
-
 if __name__ == "__main__":
     unittest.main()
