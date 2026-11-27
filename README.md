@@ -74,6 +74,10 @@ python -m http.server 8000
 
 Then open `http://localhost:8000/dashboard/`. The dashboard loads its data from `reports/latest.json`.
 
+## Share and submit TrendScout
+
+See the [launch and directory submission kit](docs/launch-kit.md) for accurate platform descriptions, launch drafts, and submission status.
+
 ## Website discovery
 
 The public site includes descriptive page titles, canonical URLs, Open Graph metadata, a crawlable homepage, a methodology page, `robots.txt`, and an XML sitemap. Submit `https://trendscout.pages.dev/sitemap.xml` to Google Search Console and Bing Webmaster Tools to request indexing; indexing and rankings are controlled by those search engines and are not guaranteed.
