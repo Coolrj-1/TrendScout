@@ -7,8 +7,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
   group: trendscout-daily
@@ -20,10 +18,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Run tests
+        run: python -m unittest discover -s tests -v
       - name: Run scan
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -35,36 +36,3 @@ jobs:
           git add data/snapshots reports
           git diff --cached --quiet || git commit -m "chore: refresh daily trend report"
           git push
-
-  build-pages:
-    needs: scan
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout latest repository state
-        uses: actions/checkout@v4
-        with:
-          ref: main
-      - name: Prepare site
-        run: |
-          mkdir -p public/reports
-          cp -R dashboard public/dashboard
-          cp reports/latest.json public/reports/latest.json
-          cat > public/index.html <<'EOF'
-          <!doctype html>
-          <html lang="en"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=./dashboard/"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TrendScout</title></head><body><p>Opening <a href="./dashboard/">TrendScout dashboard</a>…</p></body></html>
-          EOF
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: public
-
-  deploy-pages:
-    needs: build-pages
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4

@@ -14,5 +14,10 @@
     "AI developer tools"
   ],
   "per_query": 50,
-  "lookback_days": 14
+  "lookback_days": 14,
+  "hackernews_queries": [
+    "AI coding agent",
+    "MCP server",
+    "open source local AI"
+  ]
 }

@@ -27,7 +27,7 @@ main{max-width:1120px;margin:auto;padding:34px 20px 64px}
 .hero{padding:28px 0 8px}
 .hero h1{font-size:clamp(36px,7vw,62px);line-height:1.02;letter-spacing:-.04em;margin:10px 0 16px}
 .hero p{color:var(--muted);max-width:720px;font-size:16px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:25px 0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:25px 0}
 .stat,.card,.tablewrap,.notice{background:linear-gradient(145deg,#141f35,#10182a);border:1px solid var(--line);border-radius:16px}
 .stat{padding:18px}.stat strong{font-size:28px;display:block}.stat span{color:var(--muted);font-size:13px}
 .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0}
@@ -41,6 +41,7 @@ main{max-width:1120px;margin:auto;padding:34px 20px 64px}
 .card h2 a,.table a{color:var(--text);text-decoration:none}
 .card h2 a:hover,.table a:hover{color:var(--accent)}
 .desc{color:var(--muted);font-size:14px;overflow-wrap:anywhere}
+.health{font-size:11px;border:1px solid #385b50;color:var(--green);border-radius:20px;padding:3px 9px;width:max-content}.health.caution{color:#ffd27a;border-color:#78633a}.health.low{color:var(--red);border-color:#75414b}.insights{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}.insight{background:linear-gradient(145deg,#141f35,#10182a);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0}.insight h2{font-size:17px;margin:0 0 10px}.hn-item{padding:10px 0;border-top:1px solid var(--line)}.hn-item a{color:var(--text);text-decoration:none}.hn-item a:hover{color:var(--accent)}.hn-meta{font-size:12px;color:var(--muted)}.chart{width:100%;height:190px;display:block}.compare{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0}.compare select{background:#10182a;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px;max-width:100%}.compare-result{color:var(--muted);font-size:13px}@media(max-width:650px){.insights{grid-template-columns:1fr}}
 .pill{font-size:11px;color:var(--green);border:1px solid #2a6b59;border-radius:30px;padding:3px 9px;width:max-content}
 .meta{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:13px}
 .growth{font-size:12px;border-radius:20px;padding:3px 9px;width:max-content;border:1px solid var(--line);color:var(--muted)}
@@ -77,19 +78,19 @@ main{max-width:1120px;margin:auto;padding:34px 20px 64px}
 <section class="stats">
 <div class="stat"><strong id="count">—</strong><span>Projects found</span></div>
 <div class="stat"><strong id="stars">—</strong><span>Combined stars in this scan</span></div>
-<div class="stat"><strong id="cats">—</strong><span>Trend categories</span></div>
+<div class="stat"><strong id="cats">—</strong><span>Trend categories</span></div><div class="stat"><strong id="healthy">—</strong><span>Projects with strong health signals</span></div>
 </section>
 <div class="toolbar">
 <input id="search" type="search" placeholder="Search projects, topics or descriptions…" aria-label="Search projects">
 <select id="category" aria-label="Filter by category"><option value="">All categories</option></select>
-<select id="sort" aria-label="Sort projects"><option value="trend">Sort: Trend score</option><option value="stars">Sort: Most stars</option><option value="growth">Sort: 7-day growth</option><option value="recent">Sort: Recently updated</option></select>
+<select id="sort" aria-label="Sort projects"><option value="trend">Sort: Trend score</option><option value="stars">Sort: Most stars</option><option value="growth">Sort: 7-day growth</option><option value="health">Sort: Repository health</option><option value="recent">Sort: Recently updated</option></select>
 <button id="refresh" type="button">Refresh data</button>
 </div>
 <div id="notice" class="notice" role="status">Loading TrendScout data…</div>
 <section class="howto"><h2>How to use TrendScout</h2><ol><li>Search by project name, topic or technology.</li><li>Filter by category and sort by stars, recent activity or measured 7-day growth.</li><li>Open <b>Repository details</b> to inspect license, topics, activity and project settings.</li><li>Use the GitHub README, releases, issues and security information before installing anything.</li><li>Copy the clone command or open the repository on GitHub.</li></ol><p class="muted">Stars show popularity, not quality. Check the source and permissions before running code.</p></section>
-<h2 class="section">Discoveries</h2><section class="grid" id="cards"></section>
+<section class="howto"><h2>Category snapshot</h2><div id="categoryChart" aria-label="Repository counts by category"></div><p class="muted">Counts reflect this scan only; historical charting appears as comparable daily snapshots accumulate.</p></section><section class="insights"><div class="insight"><h2>30-day momentum by project</h2><p class="muted">Historical change appears after enough daily snapshots exist.</p><canvas id="trendChart" class="chart" aria-label="30-day star change chart"></canvas></div><div class="insight"><h2>Hacker News signals</h2><div id="hnSignals" class="muted">Loading community signals…</div></div></section><div class="compare"><label for="compareA" class="muted">Compare projects:</label><select id="compareA" aria-label="First project"><option value="">Choose first project</option></select><select id="compareB" aria-label="Second project"><option value="">Choose second project</option></select><span id="compareResult" class="compare-result">Select two projects to compare their public metrics.</span></div><section class="howto"><h2>Community discovery signals</h2><p class="muted" id="externalNote">Loading secondary discovery sources…</p><div id="externalSignals"></div></section><h2 class="section">Discoveries</h2><section class="grid" id="cards"></section>
 <h2 class="section">All projects</h2>
-<div class="tablewrap"><table class="table"><thead><tr><th>Repository</th><th>Category</th><th>Stars</th><th>7-day change</th><th>Language</th></tr></thead><tbody id="rows"></tbody></table></div>
+<div class="tablewrap"><table class="table"><thead><tr><th>Repository</th><th>Category</th><th>Stars</th><th>7-day change</th><th>Health</th><th>Language</th></tr></thead><tbody id="rows"></tbody></table></div>
 <p class="footer" id="method"></p><footer class="footer"><a href="/">TrendScout home</a> · <a href="/about/">Methodology</a> · <a href="/privacy-policy/">Privacy</a> · <a href="/affiliate-disclosure/">Affiliate disclosure</a> · <a href="/terms/">Terms</a> · <a href="/contact/">Contact</a></footer>
 </main>
 <script>
@@ -117,6 +118,7 @@ function sorted(list){
  return [...list].sort((a,b)=>{
   if(mode==="stars")return b.stars-a.stars;
   if(mode==="growth")return (b.stars_7d??-Infinity)-(a.stars_7d??-Infinity);
+  if(mode==="health")return (b.health_score??-1)-(a.health_score??-1);
   if(mode==="recent")return new Date(b.pushed_at||0)-new Date(a.pushed_at||0);
   return (b.trend_score??-Infinity)-(a.trend_score??-Infinity)||b.stars-a.stars;
  });
@@ -131,13 +133,19 @@ function render(){
   if(validRepoUrl(r.url)){const a=make("a","",r.full_name);a.href=r.url;a.target="_blank";a.rel="noopener noreferrer";h.append(a);}else h.textContent=r.full_name||"Unknown repository";
   const growth=make("span","growth "+(Number(r.stars_7d)>0?"up":Number(r.stars_7d)<0?"down":""),growthLabel(r));
   meta.append(make("span","", "★ "+fmt(r.stars)),make("span","","⑂ "+fmt(r.forks)+" forks"),make("span","",r.language));
-  card.append(pill,h,desc,meta,growth);
+  const health=make("span","growth", "Health "+(r.health_score??"—")+"/100 · "+(r.health_label||"Unrated"));
+  const growth30=make("span","growth",r.stars_30d===null||r.stars_30d===undefined?"30-day growth: building history":(r.stars_30d>0?"+":"")+fmt(r.stars_30d)+" stars / 30d");
+  card.append(pill,h,desc,meta,growth,growth30,health);
   if(r.pushed_at)card.append(make("div","muted","Last push: "+safeDate(r.pushed_at)));
+  if(r.stars_30d!==null&&r.stars_30d!==undefined)card.append(make("div","muted","30-day star change: "+(r.stars_30d>0?"+":"")+fmt(r.stars_30d)));
+  if(Array.isArray(r.health_notes)&&r.health_notes.length)card.append(make("div","muted","Health notes: "+r.health_notes.join(" · ")));
   const details=make("details","details"),summary=make("summary","", "Repository details & how to use");
   const dg=make("div","detailgrid");
   const fields=[["Created",safeDate(r.created_at)],["License",r.license||"Not provided"],["Default branch",r.default_branch||"main"],["Open issues",fmt(r.open_issues)],["Watchers",fmt(r.watchers)],["Repository size",r.size_kb?fmt(r.size_kb)+" KB":"Not provided"],["Visibility",r.visibility||"Public"],["Owner type",r.owner_type||"Unknown"],["Archived",r.archived?"Yes":"No"],["Wiki",r.has_wiki?"Available":"Not enabled"],["GitHub Pages",r.has_pages?"Enabled":"Not enabled"]];
   fields.forEach(([label,value])=>{const item=make("div","detailitem");item.append(make("b","",label),document.createTextNode(value));dg.append(item)});
   details.append(summary,dg);
+  if(Array.isArray(r.health_notes)&&r.health_notes.length){details.append(make("p","muted","Health review: "+r.health_notes.join("; ")));}
+  else{details.append(make("p","muted","No health warnings from the available metadata. This is not a security audit."));}
   const reviewTitle=make("b","","Public pull-request review sample");
   details.append(reviewTitle);
   if(r.review_data_status==="sampled"){
@@ -165,7 +173,7 @@ function render(){
   $("#cards").append(card);
   const tr=document.createElement("tr"),tdName=document.createElement("td");
   if(validRepoUrl(r.url)){const a=make("a","",r.full_name);a.href=r.url;a.target="_blank";a.rel="noopener noreferrer";tdName.append(a);}else tdName.textContent=r.full_name||"Unknown";
-  tr.append(tdName,make("td","",r.category),make("td","",fmt(r.stars)),make("td","",growthLabel(r)),make("td","",r.language));$("#rows").append(tr);
+  tr.append(tdName,make("td","",r.category),make("td","",fmt(r.stars)),make("td","",growthLabel(r)),make("td","",r.health_score===undefined?"—":r.health_score+"/100"),make("td","",r.language));$("#rows").append(tr);
  }
 }
 async function load(){
@@ -174,20 +182,36 @@ async function load(){
   const response=await fetch("../reports/latest.json?cache="+Date.now(),{cache:"no-store"});
   if(!response.ok)throw new Error("Report request failed (HTTP "+response.status+").");
   const d=await response.json();all=normalizeReport(d);
+  renderHackerNews(d.hacker_news||[]);
+  populateCompare();
+  drawTrendChart();
   const categories=d.categories||[...new Set(all.map(r=>r.category))].sort();
   $("#count").textContent=fmt(all.length);
   $("#stars").textContent=fmt(all.reduce((sum,r)=>sum+r.stars,0));
   $("#cats").textContent=fmt(new Set(all.map(r=>r.category)).size);
+  $("#healthy").textContent=fmt(all.filter(r=>(r.health_score??0)>=80).length);
+  const counts={};all.forEach(r=>counts[r.category]=(counts[r.category]||0)+1);
+  const chart=$("#categoryChart");chart.replaceChildren();Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,8).forEach(([name,count])=>{const line=make("div","meta");line.style.margin="8px 0";line.append(make("span","",name+" · "+count));const bar=make("div","growth");bar.style.width=Math.max(8,100*count/Math.max(...Object.values(counts)))+"%";bar.textContent=count;line.append(bar);chart.append(line)});
+  const external=d.external_discovery||{};const signalBox=$("#externalSignals");signalBox.replaceChildren();
+  const signals=[...(external.github_trending||[]),...(external.hacker_news||[])];
+  $("#externalNote").textContent=external.note||"Community signals are independent discovery hints and do not affect star-based rankings.";
+  if(!signals.length){signalBox.append(make("p","muted","No external signals were available in this scan."));}
+  signals.slice(0,12).forEach(item=>{const line=make("div","detailitem"),a=make("a","",item.repository||item.title||"Project");a.href=item.url||item.discussion_url||"#";a.target="_blank";a.rel="noopener noreferrer";line.append(a,document.createTextNode(" · "+(item.source||"Community")+(item.points!==undefined?" · "+item.points+" points · "+(item.comments||0)+" comments":"")));signalBox.append(line)});
   const stamp=d.generated_at||d.captured_at||d.snapshot?.captured_at;
   $("#stamp").textContent=stamp?"Updated "+new Date(stamp).toLocaleString():"Latest scan loaded";
-  $("#notice").textContent=all.length?all.length+" projects loaded. Growth appears only when a comparable week-old snapshot exists.":"The scan completed, but no projects matched the configured searches.";
+  $("#notice").textContent=all.length?all.length+" projects loaded. 7-day and 30-day growth require comparable historical snapshots. Health scores are metadata-only maintenance signals, not security audits.":"The scan completed, but no projects matched the configured searches.";
   $("#method").textContent=d.methodology||"TrendScout uses public GitHub repository metadata. Star totals are popularity signals; growth is shown only when historical snapshots are available.";
   const sel=$("#category"),current=sel.value;sel.replaceChildren(make("option","","All categories"));sel.firstChild.value="";
   categories.forEach(c=>{const o=make("option","",c);o.value=c;sel.append(o)});sel.value=current;
   render();
  }catch(e){$("#notice").textContent="Could not load trend data: "+e.message+" Check the latest scan and GitHub Pages deployment.";$("#notice").classList.add("error");$("#stamp").textContent="Data unavailable";}
 }
-$("#search").addEventListener("input",render);$("#category").addEventListener("change",render);$("#sort").addEventListener("change",render);$("#refresh").addEventListener("click",load);
+function renderHackerNews(items){const host=$("#hnSignals");host.replaceChildren();if(!items.length){host.textContent="No Hacker News matches in this scan. This source is best-effort and may be temporarily unavailable.";return;}items.slice(0,8).forEach(item=>{const row=make("div","hn-item"),a=make("a","",item.title);a.href=item.hn_url||item.url;a.target="_blank";a.rel="noopener noreferrer";const meta=make("div","hn-meta",fmt(item.points)+" points · "+fmt(item.comments)+" comments · "+safeDate(item.created_at));row.append(a,meta);host.append(row);});}
+function populateCompare(){["compareA","compareB"].forEach(id=>{const sel=$("#"+id);sel.replaceChildren(make("option","","Choose project"));sel.firstChild.value="";all.forEach(r=>{const o=make("option","",r.full_name);o.value=r.full_name;sel.append(o);});});}
+function drawTrendChart(){const canvas=$("#trendChart");if(!canvas)return;const ctx=canvas.getContext("2d"),w=canvas.clientWidth||500,h=190,dpr=window.devicePixelRatio||1;canvas.width=w*dpr;canvas.height=h*dpr;ctx.scale(dpr,dpr);ctx.clearRect(0,0,w,h);const data=all.filter(r=>Number.isFinite(r.stars_30d)).sort((a,b)=>b.stars_30d-a.stars_30d).slice(0,7);if(!data.length){ctx.fillStyle="#9aa9c3";ctx.font="13px system-ui";ctx.fillText("30-day comparisons will appear as history builds.",8,90);return;}const max=Math.max(1,...data.map(x=>Math.abs(x.stars_30d))),barH=17,gap=8,labelW=Math.min(150,w*.42),plotW=w-labelW-42;data.forEach((r,i)=>{const y=8+i*(barH+gap),v=r.stars_30d,bw=Math.max(2,Math.abs(v)/max*plotW);ctx.fillStyle="#9bb0ff";ctx.fillText(r.full_name.slice(0,22),4,y+13);ctx.fillRect(labelW+(v<0?plotW-bw:0),y,bw,barH);ctx.fillStyle="#e8eefc";ctx.fillText((v>0?"+":"")+fmt(v),labelW+plotW+6,y+13);});}
+function compareProjects(){const a=all.find(r=>r.full_name===$("#compareA").value),b=all.find(r=>r.full_name===$("#compareB").value);if(!a||!b){$("#compareResult").textContent="Select two projects to compare their public metrics.";return;}$("#compareResult").textContent=a.full_name+": "+fmt(a.stars)+" stars, "+(a.health_score??"—")+"/100 health · "+b.full_name+": "+fmt(b.stars)+" stars, "+(b.health_score??"—")+"/100 health";}
+$("#compareA").addEventListener("change",compareProjects);$("#compareB").addEventListener("change",compareProjects);
+$("#search").addEventListener("input",render);$("#category").addEventListener("change",render);$("#sort").addEventListener("change",render);$("#refresh").addEventListener("click",load);window.addEventListener("resize",drawTrendChart);
 load();
 </script>
 </body>
