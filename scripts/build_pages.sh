@@ -6,7 +6,7 @@ OUT="$ROOT/public"
 SITE="https://trendscout.pages.dev"
 
 rm -rf "$OUT"
-mkdir -p "$OUT/dashboard" "$OUT/reports" "$OUT/about" "$OUT/guides/ai-coding-agents" "$OUT/guides/mcp-servers" "$OUT/guides/using-trendscout"
+mkdir -p "$OUT/dashboard" "$OUT/reports" "$OUT/about" "$OUT/guides/ai-coding-agents" "$OUT/guides/mcp-servers" "$OUT/guides/using-trendscout" "$OUT/guides/github-repository-health"
 
 cp "$ROOT/dashboard/index.html" "$OUT/dashboard/index.html"
 cp "$ROOT/reports/latest.json" "$OUT/reports/latest.json"
@@ -14,6 +14,7 @@ cp "$ROOT/reports/latest.md" "$OUT/reports/latest.md"
 cp "$ROOT/content/guides/ai-coding-agents.html" "$OUT/guides/ai-coding-agents/index.html"
 cp "$ROOT/content/guides/mcp-servers.html" "$OUT/guides/mcp-servers/index.html"
 cp "$ROOT/content/guides/using-trendscout.html" "$OUT/guides/using-trendscout/index.html"
+cp "$ROOT/content/guides/github-repository-health.html" "$OUT/guides/github-repository-health/index.html"
 
 cat > "$OUT/index.html" <<'HTML'
 <!doctype html>
@@ -87,6 +88,7 @@ section{margin:36px 0}.panel{background:linear-gradient(145deg,#141f35,#10182a);
 </section>
 <section><h2>Practical guides</h2><div class="cols"><article class="panel"><h3>Evaluate AI coding agents</h3><p>Compare workflow fit, model support, permissions and maintenance.</p><p><a href="/guides/ai-coding-agents/">Read the guide →</a></p></article><article class="panel"><h3>Understand MCP servers</h3><p>Learn how MCP connects AI apps to tools and data, with safety checks.</p><p><a href="/guides/mcp-servers/">Read the guide →</a></p></article></div></section>
 <section><h2>New to TrendScout?</h2><div class="panel"><p>Learn how to search, sort, inspect repository details and safely try a project.</p><p><a href="/guides/using-trendscout/">Read the step-by-step guide →</a></p></div></section>
+<section class="panel"><h2>Share TrendScout with developers</h2><p>Found a useful project? Share the live discovery dashboard with your team or developer community.</p><div class="actions"><a class="btn primary" href="https://www.reddit.com/submit?url=https%3A%2F%2Ftrendscout.pages.dev%2F&title=TrendScout%20%E2%80%94%20Discover%20rising%20GitHub%20projects">Share on Reddit</a><a class="btn" href="https://twitter.com/intent/tweet?text=Discover%20rising%20open-source%20projects%20with%20TrendScout&url=https%3A%2F%2Ftrendscout.pages.dev%2F">Share on X</a><a class="btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Ftrendscout.pages.dev%2F">Share on LinkedIn</a></div></section>
 <section><h2>Built in the open</h2><p>TrendScout is an open-source project. Explore the source, inspect the scanner and suggest improvements on GitHub.</p><p><a href="https://github.com/Coolrj-1/TrendScout">GitHub repository →</a></p></section>
 <footer>TrendScout · Independent open-source discovery · <a href="/dashboard/">Dashboard</a> · <a href="/about/">Methodology</a></footer>
 </main></body></html>
@@ -131,6 +133,11 @@ cat > "$OUT/guides/find-trending-github-repositories/index.html" <<'GUIDE'
 </body></html>
 GUIDE
 
+cat > "$OUT/feed.xml" <<'FEED'
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel><title>TrendScout — GitHub discovery report</title><link>https://trendscout.pages.dev/</link><description>Fresh discoveries from public GitHub repositories across AI and developer tools.</description><language>en</language><item><title>Latest TrendScout GitHub discovery report</title><link>https://trendscout.pages.dev/reports/latest.md</link><guid>https://trendscout.pages.dev/reports/latest.md</guid><description>Explore the latest repository scan, trend signals and measured star growth.</description></item></channel></rss>
+FEED
+
 cat > "$OUT/robots.txt" <<'ROBOTS'
 User-agent: *
 Allow: /
@@ -147,7 +154,9 @@ cat > "$OUT/sitemap.xml" <<'SITEMAP'
   <url><loc>https://trendscout.pages.dev/guides/ai-coding-agents/</loc></url>
   <url><loc>https://trendscout.pages.dev/guides/mcp-servers/</loc></url>
   <url><loc>https://trendscout.pages.dev/guides/using-trendscout/</loc></url>
+  <url><loc>https://trendscout.pages.dev/guides/github-repository-health/</loc></url>
   <url><loc>https://trendscout.pages.dev/reports/latest.md</loc></url>
+  <url><loc>https://trendscout.pages.dev/feed.xml</loc></url>
 </urlset>
 SITEMAP
 
