@@ -2,7 +2,7 @@
 
 **A lightweight, open-source radar for rising GitHub projects.**
 
-Live dashboard: https://trendscout.pages.dev/ · [Explore discoveries](https://trendscout.pages.dev/dashboard/) · [Methodology](https://trendscout.pages.dev/about/)
+Live dashboard: https://trendscout.pages.dev/ · [Explore discoveries](https://trendscout.pages.dev/dashboard/) · [AI GitHub project watchlist](https://trendscout.pages.dev/guides/ai-github-projects-to-watch/) · [Latest report](https://trendscout.pages.dev/reports/latest.md) · [Methodology](https://trendscout.pages.dev/about/)
 
 TrendScout collects public GitHub repository data across fast-moving developer topics, stores daily snapshots, compares current stars with older snapshots, and produces a ranked Markdown report plus JSON data.
 
