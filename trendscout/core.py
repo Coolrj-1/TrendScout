@@ -9,6 +9,8 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
+from trendscout.external_sources import github_trending_signals, hacker_news_signals
+
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "config" / "topics.json"
 SNAPSHOTS = ROOT / "data" / "snapshots"
