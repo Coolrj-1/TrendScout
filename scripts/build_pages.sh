@@ -17,6 +17,7 @@ cat > "$OUT/index.html" <<'HTML'
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="google-site-verification" content="qrjec9342Edh8l5w19zHMYSfMqxnW8HhkiVXgyhD1-Y" />
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b1020">
 <meta name="description" content="Find rising GitHub projects across AI agents, MCP servers, local LLMs, coding assistants and developer tools. Explore transparent trend signals and measured star growth with TrendScout.">
