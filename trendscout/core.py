@@ -38,6 +38,17 @@ def normalize(repo: dict, category: str, captured_at: str) -> dict:
         "forks": int(repo.get("forks_count") or 0), "language": repo.get("language") or "Unknown",
         "created_at": repo.get("created_at"), "pushed_at": repo.get("pushed_at"),
         "topics": repo.get("topics") or [], "category": category, "captured_at": captured_at,
+        "homepage": repo.get("homepage") or "",
+        "license": (repo.get("license") or {}).get("spdx_id") or "Not specified",
+        "default_branch": repo.get("default_branch") or "main",
+        "open_issues": int(repo.get("open_issues_count") or 0),
+        "watchers": int(repo.get("watchers_count") or 0),
+        "size_kb": int(repo.get("size") or 0),
+        "visibility": repo.get("visibility") or "public",
+        "archived": bool(repo.get("archived", False)),
+        "has_wiki": bool(repo.get("has_wiki", False)),
+        "has_pages": bool(repo.get("has_pages", False)),
+        "owner_type": (repo.get("owner") or {}).get("type") or "Unknown",
     }
 
 def load_json(path: Path, default):
