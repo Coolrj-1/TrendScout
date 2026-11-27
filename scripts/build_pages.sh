@@ -6,11 +6,13 @@ OUT="$ROOT/public"
 SITE="https://trendscout.pages.dev"
 
 rm -rf "$OUT"
-mkdir -p "$OUT/dashboard" "$OUT/reports" "$OUT/about"
+mkdir -p "$OUT/dashboard" "$OUT/reports" "$OUT/about" "$OUT/guides/ai-coding-agents" "$OUT/guides/mcp-servers"
 
 cp "$ROOT/dashboard/index.html" "$OUT/dashboard/index.html"
 cp "$ROOT/reports/latest.json" "$OUT/reports/latest.json"
 cp "$ROOT/reports/latest.md" "$OUT/reports/latest.md"
+cp "$ROOT/content/guides/ai-coding-agents.html" "$OUT/guides/ai-coding-agents/index.html"
+cp "$ROOT/content/guides/mcp-servers.html" "$OUT/guides/mcp-servers/index.html"
 
 cat > "$OUT/index.html" <<'HTML'
 <!doctype html>
@@ -82,6 +84,7 @@ section{margin:36px 0}.panel{background:linear-gradient(145deg,#141f35,#10182a);
 <p class="small">Trend scores are heuristic discovery signals, not endorsements or measures of software quality. TrendScout does not clone repositories or execute their code.</p>
 <p><a href="/about/">Read the methodology</a> · <a href="/reports/latest.md">Read the latest report</a></p>
 </section>
+<section><h2>Practical guides</h2><div class="cols"><article class="panel"><h3>Evaluate AI coding agents</h3><p>Compare workflow fit, model support, permissions and maintenance.</p><p><a href="/guides/ai-coding-agents/">Read the guide →</a></p></article><article class="panel"><h3>Understand MCP servers</h3><p>Learn how MCP connects AI apps to tools and data, with safety checks.</p><p><a href="/guides/mcp-servers/">Read the guide →</a></p></article></div></section>
 <section><h2>Built in the open</h2><p>TrendScout is an open-source project. Explore the source, inspect the scanner and suggest improvements on GitHub.</p><p><a href="https://github.com/Coolrj-1/TrendScout">GitHub repository →</a></p></section>
 <footer>TrendScout · Independent open-source discovery · <a href="/dashboard/">Dashboard</a> · <a href="/about/">Methodology</a></footer>
 </main></body></html>
@@ -139,6 +142,8 @@ cat > "$OUT/sitemap.xml" <<'SITEMAP'
   <url><loc>https://trendscout.pages.dev/dashboard/</loc></url>
   <url><loc>https://trendscout.pages.dev/about/</loc></url>
   <url><loc>https://trendscout.pages.dev/guides/find-trending-github-repositories/</loc></url>
+  <url><loc>https://trendscout.pages.dev/guides/ai-coding-agents/</loc></url>
+  <url><loc>https://trendscout.pages.dev/guides/mcp-servers/</loc></url>
   <url><loc>https://trendscout.pages.dev/reports/latest.md</loc></url>
 </urlset>
 SITEMAP
