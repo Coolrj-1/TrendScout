@@ -17,6 +17,9 @@ A November 27, 2026 scan of public trend trackers showed strong momentum around 
 - Saves dated snapshots in `data/snapshots/`
 - Estimates 7-day star growth when a snapshot from roughly a week earlier exists\n- Provides searchable project cards with repository metadata, topic tags and clone commands\n- Samples public pull-request discussions and review states (approvals, changes requested and comments) for recent PRs\n- Includes step-by-step guides for using TrendScout, evaluating AI coding agents and understanding MCP servers
 - Ranks projects using star growth, growth rate and freshness
+- Calculates 7-day and 30-day star changes only when comparable snapshots exist
+- Adds a transparent repository-maintenance heuristic using archive status, license, push recency and issue volume
+- Shows GitHub Trending and Hacker News discovery hints separately from GitHub star rankings
 - Estimates 30-day star change when a comparable historical snapshot exists
 - Adds a transparent metadata-only repository health heuristic (archive status, license and push recency)
 - Collects public Hacker News story signals for configured AI/developer topics; this source is best-effort
@@ -81,6 +84,10 @@ Then open `http://localhost:8000/dashboard/`. The dashboard loads its data from 
 
 The scanner optionally queries the public Hacker News Algolia search API for the configured `hackernews_queries`. HN results are attention signals (points/comments), not endorsements; temporary API failures do not stop GitHub scans. Repository health is a simple metadata heuristic using archive status, recognized license and last-push recency. It is not a security audit. Seven-day and 30-day star changes are shown only when comparable historical snapshots exist.
 
+## Trend and repository health signals
+
+The dashboard reports 7-day and 30-day star changes only when a snapshot within one day of the target comparison window exists. Repository health is a metadata-only triage heuristic (0–100) based on archive status, recognized license, last-push recency and open-issue volume relative to stars. It is not a security audit, code-quality assessment or endorsement. GitHub Trending and Hacker News links are displayed as separate discovery signals and never modify the star-based trend score. External-source failures do not stop the core GitHub scan.
+
 ## Website discovery
 
 The public site includes descriptive page titles, canonical URLs, Open Graph metadata, a crawlable homepage, a methodology page, `robots.txt`, and an XML sitemap. Submit `https://trendscout.pages.dev/sitemap.xml` to Google Search Console and Bing Webmaster Tools to request indexing; indexing and rankings are controlled by those search engines and are not guaranteed.
@@ -100,6 +107,7 @@ The site owner must create the Web Analytics property and supply its token. Do n
 
 ```bash
 python -m unittest discover -s tests -v
+bash scripts/build_pages.sh
 ```
 
 ## Project structure
