@@ -209,7 +209,6 @@ cat > "$OUT/sitemap.xml" <<'SITEMAP'
   <url><loc>https://trendscout.pages.dev/terms/</loc></url>
   <url><loc>https://trendscout.pages.dev/contact/</loc></url>
   <url><loc>https://trendscout.pages.dev/guides/find-trending-github-repositories/</loc></url>
-  <url><loc>https://trendscout.pages.dev/guides/find-trending-github-repositories/</loc></url>
   <url><loc>https://trendscout.pages.dev/guides/ai-coding-agents/</loc></url>
   <url><loc>https://trendscout.pages.dev/guides/mcp-servers/</loc></url>
   <url><loc>https://trendscout.pages.dev/guides/using-trendscout/</loc></url>
