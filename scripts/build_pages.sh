@@ -87,10 +87,11 @@ section{margin:36px 0}.panel{background:linear-gradient(145deg,#141f35,#10182a);
 <p><a href="/about/">Read the methodology</a> · <a href="/reports/latest.md">Read the latest report</a></p>
 </section>
 <section><h2>Practical guides</h2><div class="cols"><article class="panel"><h3>Evaluate AI coding agents</h3><p>Compare workflow fit, model support, permissions and maintenance.</p><p><a href="/guides/ai-coding-agents/">Read the guide →</a></p></article><article class="panel"><h3>Understand MCP servers</h3><p>Learn how MCP connects AI apps to tools and data, with safety checks.</p><p><a href="/guides/mcp-servers/">Read the guide →</a></p></article></div></section>
+<section><h2>Check project health before adopting</h2><div class="panel"><p>Learn how to assess releases, commits, issues, pull requests, contributors, licenses and security signals.</p><p><a href="/guides/github-repository-health/">Read the repository health guide →</a></p></div></section>
 <section><h2>New to TrendScout?</h2><div class="panel"><p>Learn how to search, sort, inspect repository details and safely try a project.</p><p><a href="/guides/using-trendscout/">Read the step-by-step guide →</a></p></div></section>
 <section class="panel"><h2>Share TrendScout with developers</h2><p>Found a useful project? Share the live discovery dashboard with your team or developer community.</p><div class="actions"><a class="btn primary" href="https://www.reddit.com/submit?url=https%3A%2F%2Ftrendscout.pages.dev%2F&title=TrendScout%20%E2%80%94%20Discover%20rising%20GitHub%20projects">Share on Reddit</a><a class="btn" href="https://twitter.com/intent/tweet?text=Discover%20rising%20open-source%20projects%20with%20TrendScout&url=https%3A%2F%2Ftrendscout.pages.dev%2F">Share on X</a><a class="btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Ftrendscout.pages.dev%2F">Share on LinkedIn</a></div></section>
 <section><h2>Built in the open</h2><p>TrendScout is an open-source project. Explore the source, inspect the scanner and suggest improvements on GitHub.</p><p><a href="https://github.com/Coolrj-1/TrendScout">GitHub repository →</a></p></section>
-<footer>TrendScout · Independent open-source discovery · <a href="/dashboard/">Dashboard</a> · <a href="/about/">Methodology</a></footer>
+<footer>TrendScout · Independent open-source discovery · <a href="/dashboard/">Dashboard</a> · <a href="/about/">Methodology</a> · <a href="/feed.xml">RSS feed</a></footer>
 </main></body></html>
 HTML
 
