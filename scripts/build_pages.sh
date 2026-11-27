@@ -6,7 +6,7 @@ OUT="$ROOT/public"
 SITE="https://trendscout.pages.dev"
 
 rm -rf "$OUT"
-mkdir -p "$OUT/dashboard" "$OUT/reports" "$OUT/about" "$OUT/privacy-policy" "$OUT/affiliate-disclosure" "$OUT/terms" "$OUT/contact" "$OUT/guides/ai-coding-agents" "$OUT/guides/mcp-servers" "$OUT/guides/using-trendscout" "$OUT/guides/github-repository-health"
+mkdir -p "$OUT/dashboard" "$OUT/reports" "$OUT/about" "$OUT/privacy-policy" "$OUT/affiliate-disclosure" "$OUT/terms" "$OUT/contact" "$OUT/guides/ai-coding-agents" "$OUT/guides/mcp-servers" "$OUT/guides/using-trendscout" "$OUT/guides/github-repository-health" "$OUT/guides/ai-github-projects-to-watch"
 
 cp "$ROOT/dashboard/index.html" "$OUT/dashboard/index.html"
 cp "$ROOT/reports/latest.json" "$OUT/reports/latest.json"
@@ -91,6 +91,7 @@ section{margin:36px 0}.panel{background:linear-gradient(145deg,#141f35,#10182a);
 <p><a href="/about/">Read the methodology</a> · <a href="/reports/latest.md">Read the latest report</a></p>
 </section>
 <section><h2>Practical guides</h2><div class="cols"><article class="panel"><h3>Evaluate AI coding agents</h3><p>Compare workflow fit, model support, permissions and maintenance.</p><p><a href="/guides/ai-coding-agents/">Read the guide →</a></p></article><article class="panel"><h3>Understand MCP servers</h3><p>Learn how MCP connects AI apps to tools and data, with safety checks.</p><p><a href="/guides/mcp-servers/">Read the guide →</a></p></article></div></section>
+<section><h2>AI GitHub projects to watch</h2><div class="panel"><p>Explore a dated snapshot of AI agents, MCP servers, local AI and computer-use repositories, with transparent star counts and source links.</p><p><a href="/guides/ai-github-projects-to-watch/">Read the November 2026 project watchlist →</a></p></div></section>
 <section><h2>Check project health before adopting</h2><div class="panel"><p>Learn how to assess releases, commits, issues, pull requests, contributors, licenses and security signals.</p><p><a href="/guides/github-repository-health/">Read the repository health guide →</a></p></div></section>
 <section><h2>New to TrendScout?</h2><div class="panel"><p>Learn how to search, sort, inspect repository details and safely try a project.</p><p><a href="/guides/using-trendscout/">Read the step-by-step guide →</a></p></div></section>
 <section class="panel"><h2>Share TrendScout with developers</h2><p>Found a useful project? Share the live discovery dashboard with your team or developer community.</p><div class="actions"><a class="btn primary" href="https://www.reddit.com/submit?url=https%3A%2F%2Ftrendscout.pages.dev%2F&title=TrendScout%20%E2%80%94%20Discover%20rising%20GitHub%20projects">Share on Reddit</a><a class="btn" href="https://twitter.com/intent/tweet?text=Discover%20rising%20open-source%20projects%20with%20TrendScout&url=https%3A%2F%2Ftrendscout.pages.dev%2F">Share on X</a><a class="btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Ftrendscout.pages.dev%2F">Share on LinkedIn</a></div></section>
@@ -138,6 +139,52 @@ cat > "$OUT/guides/find-trending-github-repositories/index.html" <<'GUIDE'
 </body></html>
 GUIDE
 
+mkdir -p "$OUT/guides/ai-github-projects-to-watch"
+cat > "$OUT/guides/ai-github-projects-to-watch/index.html" <<'WATCH'
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Explore a dated TrendScout scan of AI and developer-tool GitHub projects, including coding agents, MCP servers, local AI and computer-use tools.">
+<meta name="robots" content="index,follow"><link rel="canonical" href="https://trendscout.pages.dev/guides/ai-github-projects-to-watch/">
+<meta property="og:type" content="article"><meta property="og:title" content="AI GitHub Projects to Watch — TrendScout"><meta property="og:description" content="A transparent snapshot of open-source AI agents, MCP servers, local AI and developer tools found in TrendScout's November 27, 2026 scan.">
+<title>AI GitHub Projects to Watch | TrendScout — November 2026</title></head>
+<body style="max-width:850px;margin:36px auto;padding:0 18px;font:16px/1.75 system-ui;background:#0b1020;color:#e8eefc">
+<p><a href="/">← TrendScout home</a></p><h1>AI GitHub Projects to Watch: A Dated Open-Source Snapshot</h1>
+<p><strong>Snapshot captured November 27, 2026 · 27 repositories across 25 categories</strong></p>
+<p>Finding useful open-source AI tools is harder than scrolling through a list of popular repositories. This TrendScout snapshot groups public GitHub projects by what they work on, so developers can investigate coding agents, MCP integrations, local inference and computer-use tools.</p>
+<p><strong>Important:</strong> this is a discovery snapshot, not a verified star-growth ranking. The report contains current star totals and last-push timestamps. TrendScout does not claim a project is rapidly growing unless it has comparable historical data.</p>
+<h2>AI agent platforms and coding workflows</h2>
+<ul>
+<li><a href="https://github.com/mdiri-ai/SoduWork">mdiri-ai/SoduWork</a> — AI agent platform; 8,332 stars in this snapshot.</li>
+<li><a href="https://github.com/vaibhav-space/my-ai-coding-workflow">vaibhav-space/my-ai-coding-workflow</a> — AI coding workflow; 348 stars.</li>
+<li><a href="https://github.com/trustabl/agent-reliability-skills">trustabl/agent-reliability-skills</a> — agent reliability skills; 67 stars.</li>
+<li><a href="https://github.com/anomalyco/opencode">anomalyco/opencode</a> — popular coding agent; 229,477 stars.</li>
+</ul>
+<h2>MCP servers and integrations</h2>
+<ul>
+<li><a href="https://github.com/gogoymh/auto-ontology-mcp">gogoymh/auto-ontology-mcp</a> — MCP server; 549 stars.</li>
+<li><a href="https://github.com/shanselman/sandbox-mcp">shanselman/sandbox-mcp</a> — MCP server; 497 stars.</li>
+<li><a href="https://github.com/github/github-mcp-server">github/github-mcp-server</a> — GitHub MCP server; 34,791 stars.</li>
+</ul>
+<h2>Local AI and inference</h2>
+<ul>
+<li><a href="https://github.com/opensetlabs/openset-llm">opensetlabs/openset-llm</a> — local AI inference; 1,860 stars.</li>
+<li><a href="https://github.com/sous-labs/songe">sous-labs/songe</a> — local AI training; 911 stars.</li>
+<li><a href="https://github.com/ysunyang4/Nexus">ysunyang4/Nexus</a> — local AI tools; 510 stars.</li>
+</ul>
+<h2>Computer-use and Android automation</h2>
+<ul>
+<li><a href="https://github.com/openJiuwen-ai/computer-use">openJiuwen-ai/computer-use</a> — computer-use agent; 45 stars.</li>
+<li><a href="https://github.com/joungminsung/OpenPhoneUse">joungminsung/OpenPhoneUse</a> — Android computer-use project; 51 stars.</li>
+<li><a href="https://github.com/CursorTouch/Windows-MCP">CursorTouch/Windows-MCP</a> — Windows computer-use MCP; 12,195 stars.</li>
+</ul>
+<h2>How to evaluate these projects</h2>
+<p>Stars are accumulated popularity, not proof of quality, safety or maintenance. Before installing a project, read its README, inspect the license, check recent releases and commits, review open issues, and understand requested permissions. Treat unfamiliar shell commands and install scripts carefully.</p>
+<p>For the full list of 27 repositories, star counts, forks, languages and last-push timestamps, <a href="/reports/latest.md">read the complete November 27 TrendScout report</a>. The <a href="/dashboard/">live GitHub trend dashboard</a> provides searchable and sortable project data.</p>
+<p>Learn <a href="/guides/github-repository-health/">how to assess GitHub repository health</a>, <a href="/guides/ai-coding-agents/">how to evaluate AI coding agents</a>, and <a href="/guides/mcp-servers/">what MCP servers do</a>.</p>
+<p><small>TrendScout is an independent open-source discovery project. Listings are not endorsements, security audits or recommendations to install software.</small></p>
+</body></html>
+WATCH
+
 cat > "$OUT/feed.xml" <<'FEED'
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0"><channel><title>TrendScout — GitHub discovery report</title><link>https://trendscout.pages.dev/</link><description>Fresh discoveries from public GitHub repositories across AI and developer tools.</description><language>en</language><item><title>Latest TrendScout GitHub discovery report</title><link>https://trendscout.pages.dev/reports/latest.md</link><guid>https://trendscout.pages.dev/reports/latest.md</guid><description>Explore the latest repository scan, trend signals and measured star growth.</description></item></channel></rss>
@@ -164,6 +211,7 @@ cat > "$OUT/sitemap.xml" <<'SITEMAP'
   <url><loc>https://trendscout.pages.dev/guides/mcp-servers/</loc></url>
   <url><loc>https://trendscout.pages.dev/guides/using-trendscout/</loc></url>
   <url><loc>https://trendscout.pages.dev/guides/github-repository-health/</loc></url>
+  <url><loc>https://trendscout.pages.dev/guides/ai-github-projects-to-watch/</loc></url>
   <url><loc>https://trendscout.pages.dev/reports/latest.md</loc></url>
   <url><loc>https://trendscout.pages.dev/feed.xml</loc></url>
 </urlset>
