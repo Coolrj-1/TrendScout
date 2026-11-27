@@ -6,7 +6,7 @@ OUT="$ROOT/public"
 SITE="https://trendscout.pages.dev"
 
 rm -rf "$OUT"
-mkdir -p "$OUT/dashboard" "$OUT/reports" "$OUT/about" "$OUT/privacy-policy" "$OUT/affiliate-disclosure" "$OUT/terms" "$OUT/contact" "$OUT/guides/ai-coding-agents" "$OUT/guides/mcp-servers" "$OUT/guides/using-trendscout" "$OUT/guides/github-repository-health" "$OUT/guides/ai-github-projects-to-watch" "$OUT/guides/find-trending-github-repositories"
+mkdir -p "$OUT/dashboard" "$OUT/reports" "$OUT/about" "$OUT/privacy-policy" "$OUT/affiliate-disclosure" "$OUT/terms" "$OUT/contact" "$OUT/guides/ai-coding-agents" "$OUT/guides/mcp-servers" "$OUT/guides/using-trendscout" "$OUT/guides/github-repository-health" "$OUT/guides/ai-github-projects-to-watch" "$OUT/guides/find-trending-github-repositories" "$OUT/academy" "$OUT/academy/opencode-basics" "$OUT/academy/local-ai-ollama" "$OUT/academy/mcp-server-basics" "$OUT/academy/kotlin-android-first-app"
 
 cp "$ROOT/dashboard/index.html" "$OUT/dashboard/index.html"
 cp "$ROOT/reports/latest.json" "$OUT/reports/latest.json"
@@ -20,6 +20,11 @@ cp "$ROOT/content/guides/mcp-servers.html" "$OUT/guides/mcp-servers/index.html"
 cp "$ROOT/content/guides/using-trendscout.html" "$OUT/guides/using-trendscout/index.html"
 cp "$ROOT/content/guides/github-repository-health.html" "$OUT/guides/github-repository-health/index.html"
 cp "$ROOT/content/guides/find-trending-github-repositories.html" "$OUT/guides/find-trending-github-repositories/index.html"
+cp "$ROOT/content/academy/index.html" "$OUT/academy/index.html"
+cp "$ROOT/content/academy/opencode-basics.html" "$OUT/academy/opencode-basics/index.html"
+cp "$ROOT/content/academy/local-ai-ollama.html" "$OUT/academy/local-ai-ollama/index.html"
+cp "$ROOT/content/academy/mcp-server-basics.html" "$OUT/academy/mcp-server-basics/index.html"
+cp "$ROOT/content/academy/kotlin-android-first-app.html" "$OUT/academy/kotlin-android-first-app/index.html"
 
 cat > "$OUT/index.html" <<'HTML'
 <!doctype html>
@@ -92,6 +97,7 @@ section{margin:36px 0}.panel{background:linear-gradient(145deg,#141f35,#10182a);
 <p><a href="/about/">Read the methodology</a> · <a href="/reports/latest.md">Read the latest report</a></p>
 </section>
 <section><h2>Find rising GitHub repositories</h2><div class="panel"><p>Learn to combine topic searches, historical star growth, repository maintenance signals and developer-community discussions.</p><p><a href="/guides/find-trending-github-repositories/">Read the practical discovery guide →</a></p></div></section>
+<section><h2>TrendScout Academy</h2><div class="panel"><p>Learn to use AI coding agents, run local models, configure MCP servers and build Android apps with practical step-by-step tutorials.</p><p><a href="/academy/">Explore TrendScout Academy →</a></p></div></section>
 <section><h2>Practical guides</h2><div class="cols"><article class="panel"><h3>Evaluate AI coding agents</h3><p>Compare workflow fit, model support, permissions and maintenance.</p><p><a href="/guides/ai-coding-agents/">Read the guide →</a></p></article><article class="panel"><h3>Understand MCP servers</h3><p>Learn how MCP connects AI apps to tools and data, with safety checks.</p><p><a href="/guides/mcp-servers/">Read the guide →</a></p></article></div></section>
 <section><h2>AI GitHub projects to watch</h2><div class="panel"><p>Explore a dated snapshot of AI agents, MCP servers, local AI and computer-use repositories, with transparent star counts and source links.</p><p><a href="/guides/ai-github-projects-to-watch/">Read the November 2026 project watchlist →</a></p></div></section>
 <section><h2>Check project health before adopting</h2><div class="panel"><p>Learn how to assess releases, commits, issues, pull requests, contributors, licenses and security signals.</p><p><a href="/guides/github-repository-health/">Read the repository health guide →</a></p></div></section>
@@ -203,6 +209,11 @@ cat > "$OUT/sitemap.xml" <<'SITEMAP'
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://trendscout.pages.dev/</loc></url>
   <url><loc>https://trendscout.pages.dev/dashboard/</loc></url>
+  <url><loc>https://trendscout.pages.dev/academy/</loc></url>
+  <url><loc>https://trendscout.pages.dev/academy/opencode-basics/</loc></url>
+  <url><loc>https://trendscout.pages.dev/academy/local-ai-ollama/</loc></url>
+  <url><loc>https://trendscout.pages.dev/academy/mcp-server-basics/</loc></url>
+  <url><loc>https://trendscout.pages.dev/academy/kotlin-android-first-app/</loc></url>
   <url><loc>https://trendscout.pages.dev/about/</loc></url>
   <url><loc>https://trendscout.pages.dev/privacy-policy/</loc></url>
   <url><loc>https://trendscout.pages.dev/affiliate-disclosure/</loc></url>
