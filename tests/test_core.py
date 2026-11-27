@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from datetime import date
 from pathlib import Path
-from trendscout.core import collect, score_repositories, render_markdown
+from trendscout.core import collect, normalize, score_repositories, render_markdown
 
 class TrendScoutTests(unittest.TestCase):
     def setUp(self):
@@ -16,6 +16,19 @@ class TrendScoutTests(unittest.TestCase):
                          today=date(2026, 11, 27), search_fn=lambda query, count: [self.repo])
         self.assertEqual(len(result["repositories"]), 1)
         self.assertEqual(result["repositories"][0]["full_name"], "demo/project")
+
+    def test_normalize_keeps_repository_metadata(self):
+        raw = {**self.repo, "homepage": "https://example.com", "license": {"spdx_id": "MIT"},
+               "default_branch": "main", "open_issues_count": 4, "watchers_count": 20,
+               "size": 512, "visibility": "public", "archived": False, "has_wiki": True,
+               "has_pages": False, "owner": {"type": "Organization"}}
+        item = normalize(raw, "AI agent", "2026-11-27T00:00:00Z")
+        self.assertEqual(item["license"], "MIT")
+        self.assertEqual(item["open_issues"], 4)
+        self.assertEqual(item["watchers"], 20)
+        self.assertEqual(item["size_kb"], 512)
+        self.assertEqual(item["owner_type"], "Organization")
+        self.assertTrue(item["has_wiki"])
 
     def test_growth_uses_week_old_snapshot(self):
         with tempfile.TemporaryDirectory() as temp:
