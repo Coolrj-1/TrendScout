@@ -49,6 +49,7 @@ def normalize(repo: dict, category: str, captured_at: str) -> dict:
         "has_wiki": bool(repo.get("has_wiki", False)),
         "has_pages": bool(repo.get("has_pages", False)),
         "owner_type": (repo.get("owner") or {}).get("type") or "Unknown",
+        "archived": bool(repo.get("archived", False)),
     }
 
 def load_json(path: Path, default):
@@ -76,15 +77,15 @@ def collect(config: dict, today: date | None = None, search_fn=github_search) ->
     return {"date": today.isoformat(), "captured_at": captured_at,
             "repositories": sorted(unique.values(), key=lambda x: x["stars"], reverse=True)}
 
-def find_comparison(repo_name: str, current_date: date, snapshots_dir: Path = SNAPSHOTS):
+def find_comparison(repo_name: str, current_date: date, snapshots_dir: Path = SNAPSHOTS, target_days: int = 7):
     candidates = []
     for path in snapshots_dir.glob("*.json"):
         try:
             age = (current_date - date.fromisoformat(path.stem)).days
         except ValueError:
             continue
-        if 6 <= age <= 8:
-            candidates.append((abs(age - 7), path))
+        if max(1, target_days - 1) <= age <= target_days + 1:
+            candidates.append((abs(age - target_days), path))
     if not candidates:
         return None
     _, selected = min(candidates, key=lambda x: x[0])
@@ -148,11 +149,44 @@ def collect_hacker_news(config: dict, limit: int = 5) -> list[dict]:
         except (HTTPError, URLError, TimeoutError, ValueError, OSError):
             continue
     return sorted(found.values(), key=lambda x: (x['points'], x['comments']), reverse=True)[:limit * 3]
+def repository_health(repo: dict, current_date: date) -> dict:
+    """Transparent metadata-only maintenance heuristic; not a security audit."""
+    score = 100
+    reasons = []
+    if repo.get("archived"):
+        score -= 55
+        reasons.append("Repository is archived")
+    if (repo.get("license") or "Not specified") in {"Not specified", "NOASSERTION"}:
+        score -= 15
+        reasons.append("No recognized license reported")
+    try:
+        age = (current_date - date.fromisoformat(repo["pushed_at"][:10])).days
+        if age > 365:
+            score -= 30
+            reasons.append("No push in over a year")
+        elif age > 180:
+            score -= 20
+            reasons.append("No push in over six months")
+        elif age > 90:
+            score -= 10
+            reasons.append("No push in over three months")
+    except (KeyError, TypeError, ValueError):
+        score -= 10
+        reasons.append("Last-push date unavailable")
+    stars = max(int(repo.get("stars") or 0), 1)
+    if int(repo.get("open_issues") or 0) > 100 and int(repo.get("open_issues") or 0) / stars > 0.2:
+        score -= 10
+        reasons.append("Large open-issue count relative to stars")
+    return {"health_score": max(0, min(100, score)), "health_reasons": reasons,
+            "health_label": "Strong signals" if score >= 80 else "Mixed signals" if score >= 55 else "Needs review"}
+
+
 def score_repositories(snapshot: dict, snapshots_dir: Path = SNAPSHOTS) -> list[dict]:
     current_date = date.fromisoformat(snapshot["date"])
     ranked = []
     for repo in snapshot.get("repositories", []):
-        previous = find_comparison(repo["full_name"], current_date, snapshots_dir)
+        previous = find_comparison(repo["full_name"], current_date, snapshots_dir, 7)
+        previous_30d = find_comparison(repo["full_name"], current_date, snapshots_dir, 30)
         item = dict(repo)
         item.update(repository_health(item, current_date))
         previous_30d = find_historical_comparison(repo['full_name'], current_date, 27, 33, snapshots_dir)
@@ -173,6 +207,7 @@ def score_repositories(snapshot: dict, snapshots_dir: Path = SNAPSHOTS) -> list[
             item.update({"previous_stars_7d": previous, "stars_7d": delta,
                          "growth_rate_7d": round(rate, 4), "trend_score": round(score, 2)})
             item["trend_status"] = "rising" if delta > 0 else "flat/falling"
+        item.update(repository_health(item, current_date))
         ranked.append(item)
     return sorted(ranked, key=lambda x: (x["trend_score"] is not None, x["trend_score"] or -1, x["stars"]), reverse=True)
 
@@ -216,7 +251,7 @@ def run():
         "methodology": (
             "Projects are discovered using the configured topic searches and lookback window. "
             "Seven-day growth is shown only when a comparable snapshot from 6–8 days earlier exists. "
-            "New/untracked projects do not have enough history for a growth claim."
+            "New/untracked projects do not have enough history for a growth claim. 30-day growth uses a comparable 29–31 day snapshot. Health is a metadata heuristic, not a security audit."
         ),
         "categories": categories,
         "repositories": dashboard_repositories,
