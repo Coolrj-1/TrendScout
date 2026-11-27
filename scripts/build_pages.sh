@@ -168,4 +168,18 @@ cat > "$OUT/_headers" <<'HEADERS'
   X-Frame-Options: DENY
 HEADERS
 
+# Optional Cloudflare Web Analytics beacon; token is configured as a Pages build variable.
+if [[ -n "${CLOUDFLARE_WEB_ANALYTICS_TOKEN:-}" ]]; then
+  python3 - "$OUT" "$CLOUDFLARE_WEB_ANALYTICS_TOKEN" <<'PY'
+from pathlib import Path
+import json, sys
+root = Path(sys.argv[1])
+token = json.dumps(sys.argv[2])
+snippet = "<script defer src=\"https://static.cloudflareinsights.com/beacon.min.js\" data-cf-beacon='{" + chr(34) + "token" + chr(34) + ":" + token + "}'></script>"
+for page in root.rglob("*.html"):
+    html = page.read_text(encoding="utf-8")
+    if "static.cloudflareinsights.com/beacon.min.js" not in html:
+        page.write_text(html.replace("</body>", snippet + "\\n</body>"), encoding="utf-8")
+PY
+fi
 echo "Cloudflare Pages output prepared at: $OUT"
