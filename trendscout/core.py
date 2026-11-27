@@ -50,9 +50,9 @@ def collect(config: dict, today: date | None = None, search_fn=github_search) ->
     topics = config.get("topics", [])
     per_query = max(1, min(int(config.get("per_query", 30)), 100))
     lookback_days = max(1, int(config.get("lookback_days", 30)))
-    created_after = (today - timedelta(days=lookback_days)).isoformat()
+    pushed_after = (today - timedelta(days=lookback_days)).isoformat()
     for index, query in enumerate(topics):
-        dated_query = f"{query} created:>{created_after} archived:false"
+        dated_query = f"{query} pushed:>{pushed_after} archived:false"
         for raw in search_fn(dated_query, per_query):
             item = normalize(raw, query, captured_at)
             if not item["full_name"]:
