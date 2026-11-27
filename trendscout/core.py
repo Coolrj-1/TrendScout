@@ -3,7 +3,7 @@ import argparse
 import json
 import os
 import time
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
@@ -49,8 +49,11 @@ def collect(config: dict, today: date | None = None, search_fn=github_search) ->
     unique: dict[str, dict] = {}
     topics = config.get("topics", [])
     per_query = max(1, min(int(config.get("per_query", 30)), 100))
+    lookback_days = max(1, int(config.get("lookback_days", 30)))
+    created_after = (today - timedelta(days=lookback_days)).isoformat()
     for index, query in enumerate(topics):
-        for raw in search_fn(query, per_query):
+        dated_query = f"{query} created:>{created_after} archived:false"
+        for raw in search_fn(dated_query, per_query):
             item = normalize(raw, query, captured_at)
             if not item["full_name"]:
                 continue
