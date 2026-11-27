@@ -27,7 +27,7 @@ main{max-width:1120px;margin:auto;padding:34px 20px 64px}
 .hero{padding:28px 0 8px}
 .hero h1{font-size:clamp(36px,7vw,62px);line-height:1.02;letter-spacing:-.04em;margin:10px 0 16px}
 .hero p{color:var(--muted);max-width:720px;font-size:16px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:25px 0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:25px 0}
 .stat,.card,.tablewrap,.notice{background:linear-gradient(145deg,#141f35,#10182a);border:1px solid var(--line);border-radius:16px}
 .stat{padding:18px}.stat strong{font-size:28px;display:block}.stat span{color:var(--muted);font-size:13px}
 .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0}
@@ -77,19 +77,19 @@ main{max-width:1120px;margin:auto;padding:34px 20px 64px}
 <section class="stats">
 <div class="stat"><strong id="count">—</strong><span>Projects found</span></div>
 <div class="stat"><strong id="stars">—</strong><span>Combined stars in this scan</span></div>
-<div class="stat"><strong id="cats">—</strong><span>Trend categories</span></div>
+<div class="stat"><strong id="cats">—</strong><span>Trend categories</span></div><div class="stat"><strong id="healthy">—</strong><span>Projects with strong health signals</span></div>
 </section>
 <div class="toolbar">
 <input id="search" type="search" placeholder="Search projects, topics or descriptions…" aria-label="Search projects">
 <select id="category" aria-label="Filter by category"><option value="">All categories</option></select>
-<select id="sort" aria-label="Sort projects"><option value="trend">Sort: Trend score</option><option value="stars">Sort: Most stars</option><option value="growth">Sort: 7-day growth</option><option value="recent">Sort: Recently updated</option></select>
+<select id="sort" aria-label="Sort projects"><option value="trend">Sort: Trend score</option><option value="stars">Sort: Most stars</option><option value="growth">Sort: 7-day growth</option><option value="health">Sort: Repository health</option><option value="recent">Sort: Recently updated</option></select>
 <button id="refresh" type="button">Refresh data</button>
 </div>
 <div id="notice" class="notice" role="status">Loading TrendScout data…</div>
 <section class="howto"><h2>How to use TrendScout</h2><ol><li>Search by project name, topic or technology.</li><li>Filter by category and sort by stars, recent activity or measured 7-day growth.</li><li>Open <b>Repository details</b> to inspect license, topics, activity and project settings.</li><li>Use the GitHub README, releases, issues and security information before installing anything.</li><li>Copy the clone command or open the repository on GitHub.</li></ol><p class="muted">Stars show popularity, not quality. Check the source and permissions before running code.</p></section>
-<h2 class="section">Discoveries</h2><section class="grid" id="cards"></section>
+<section class="howto"><h2>Category snapshot</h2><div id="categoryChart" aria-label="Repository counts by category"></div><p class="muted">Counts reflect this scan only; historical charting appears as comparable daily snapshots accumulate.</p></section><h2 class="section">Discoveries</h2><section class="grid" id="cards"></section>
 <h2 class="section">All projects</h2>
-<div class="tablewrap"><table class="table"><thead><tr><th>Repository</th><th>Category</th><th>Stars</th><th>7-day change</th><th>Language</th></tr></thead><tbody id="rows"></tbody></table></div>
+<div class="tablewrap"><table class="table"><thead><tr><th>Repository</th><th>Category</th><th>Stars</th><th>7-day change</th><th>Health</th><th>Language</th></tr></thead><tbody id="rows"></tbody></table></div>
 <p class="footer" id="method"></p><footer class="footer"><a href="/">TrendScout home</a> · <a href="/about/">Methodology</a> · <a href="/privacy-policy/">Privacy</a> · <a href="/affiliate-disclosure/">Affiliate disclosure</a> · <a href="/terms/">Terms</a> · <a href="/contact/">Contact</a></footer>
 </main>
 <script>
@@ -117,6 +117,7 @@ function sorted(list){
  return [...list].sort((a,b)=>{
   if(mode==="stars")return b.stars-a.stars;
   if(mode==="growth")return (b.stars_7d??-Infinity)-(a.stars_7d??-Infinity);
+  if(mode==="health")return (b.health_score??-1)-(a.health_score??-1);
   if(mode==="recent")return new Date(b.pushed_at||0)-new Date(a.pushed_at||0);
   return (b.trend_score??-Infinity)-(a.trend_score??-Infinity)||b.stars-a.stars;
  });
@@ -131,13 +132,17 @@ function render(){
   if(validRepoUrl(r.url)){const a=make("a","",r.full_name);a.href=r.url;a.target="_blank";a.rel="noopener noreferrer";h.append(a);}else h.textContent=r.full_name||"Unknown repository";
   const growth=make("span","growth "+(Number(r.stars_7d)>0?"up":Number(r.stars_7d)<0?"down":""),growthLabel(r));
   meta.append(make("span","", "★ "+fmt(r.stars)),make("span","","⑂ "+fmt(r.forks)+" forks"),make("span","",r.language));
-  card.append(pill,h,desc,meta,growth);
+  const health=make("span","growth", "Health "+(r.health_score??"—")+"/100 · "+(r.health_label||"Unrated"));
+  const growth30=make("span","growth",r.stars_30d===null||r.stars_30d===undefined?"30-day growth: building history":(r.stars_30d>0?"+":"")+fmt(r.stars_30d)+" stars / 30d");
+  card.append(pill,h,desc,meta,growth,growth30,health);
   if(r.pushed_at)card.append(make("div","muted","Last push: "+safeDate(r.pushed_at)));
   const details=make("details","details"),summary=make("summary","", "Repository details & how to use");
   const dg=make("div","detailgrid");
   const fields=[["Created",safeDate(r.created_at)],["License",r.license||"Not provided"],["Default branch",r.default_branch||"main"],["Open issues",fmt(r.open_issues)],["Watchers",fmt(r.watchers)],["Repository size",r.size_kb?fmt(r.size_kb)+" KB":"Not provided"],["Visibility",r.visibility||"Public"],["Owner type",r.owner_type||"Unknown"],["Archived",r.archived?"Yes":"No"],["Wiki",r.has_wiki?"Available":"Not enabled"],["GitHub Pages",r.has_pages?"Enabled":"Not enabled"]];
   fields.forEach(([label,value])=>{const item=make("div","detailitem");item.append(make("b","",label),document.createTextNode(value));dg.append(item)});
   details.append(summary,dg);
+  if(Array.isArray(r.health_reasons)&&r.health_reasons.length){details.append(make("p","muted","Health review: "+r.health_reasons.join("; ")));}
+  else{details.append(make("p","muted","No health warnings from the available metadata. This is not a security audit."));}
   const reviewTitle=make("b","","Public pull-request review sample");
   details.append(reviewTitle);
   if(r.review_data_status==="sampled"){
@@ -165,7 +170,7 @@ function render(){
   $("#cards").append(card);
   const tr=document.createElement("tr"),tdName=document.createElement("td");
   if(validRepoUrl(r.url)){const a=make("a","",r.full_name);a.href=r.url;a.target="_blank";a.rel="noopener noreferrer";tdName.append(a);}else tdName.textContent=r.full_name||"Unknown";
-  tr.append(tdName,make("td","",r.category),make("td","",fmt(r.stars)),make("td","",growthLabel(r)),make("td","",r.language));$("#rows").append(tr);
+  tr.append(tdName,make("td","",r.category),make("td","",fmt(r.stars)),make("td","",growthLabel(r)),make("td","",r.health_score===undefined?"—":r.health_score+"/100"),make("td","",r.language));$("#rows").append(tr);
  }
 }
 async function load(){
@@ -178,9 +183,12 @@ async function load(){
   $("#count").textContent=fmt(all.length);
   $("#stars").textContent=fmt(all.reduce((sum,r)=>sum+r.stars,0));
   $("#cats").textContent=fmt(new Set(all.map(r=>r.category)).size);
+  $("#healthy").textContent=fmt(all.filter(r=>(r.health_score??0)>=80).length);
+  const counts={};all.forEach(r=>counts[r.category]=(counts[r.category]||0)+1);
+  const chart=$("#categoryChart");chart.replaceChildren();Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,8).forEach(([name,count])=>{const line=make("div","meta");line.style.margin="8px 0";line.append(make("span","",name+" · "+count));const bar=make("div","growth");bar.style.width=Math.max(8,100*count/Math.max(...Object.values(counts)))+"%";bar.textContent=count;line.append(bar);chart.append(line)});
   const stamp=d.generated_at||d.captured_at||d.snapshot?.captured_at;
   $("#stamp").textContent=stamp?"Updated "+new Date(stamp).toLocaleString():"Latest scan loaded";
-  $("#notice").textContent=all.length?all.length+" projects loaded. Growth appears only when a comparable week-old snapshot exists.":"The scan completed, but no projects matched the configured searches.";
+  $("#notice").textContent=all.length?all.length+" projects loaded. 7-day and 30-day growth require comparable historical snapshots. Health scores are metadata-only maintenance signals, not security audits.":"The scan completed, but no projects matched the configured searches.";
   $("#method").textContent=d.methodology||"TrendScout uses public GitHub repository metadata. Star totals are popularity signals; growth is shown only when historical snapshots are available.";
   const sel=$("#category"),current=sel.value;sel.replaceChildren(make("option","","All categories"));sel.firstChild.value="";
   categories.forEach(c=>{const o=make("option","",c);o.value=c;sel.append(o)});sel.value=current;
