@@ -96,45 +96,6 @@ def find_comparison(repo_name: str, current_date: date, snapshots_dir: Path = SN
             return int(repo.get("stars", 0))
     return None
 
-def find_historical_comparison(repo_name: str, current_date: date, min_age: int, max_age: int, snapshots_dir: Path = SNAPSHOTS):
-    candidates = []
-    for path in snapshots_dir.glob('*.json'):
-        try:
-            age = (current_date - date.fromisoformat(path.stem)).days
-        except ValueError:
-            continue
-        if min_age <= age <= max_age:
-            candidates.append((abs(age - (min_age + max_age) / 2), path))
-    if not candidates:
-        return None
-    _, selected = min(candidates, key=lambda x: x[0])
-    for repo in load_json(selected, {}).get('repositories', []):
-        if repo.get('full_name') == repo_name:
-            return int(repo.get('stars', 0))
-    return None
-
-def repository_health(repo: dict, current_date: date) -> dict:
-    score, reasons = 100, []
-    if repo.get('archived'):
-        score -= 45; reasons.append('Archived repository')
-    if not repo.get('license') or repo.get('license') in {'Not specified', 'NOASSERTION'}:
-        score -= 15; reasons.append('No recognized license')
-    try:
-        age = (current_date - date.fromisoformat((repo.get('pushed_at') or '')[:10])).days
-    except ValueError:
-        age = None
-    if age is None:
-        score -= 15; reasons.append('Last activity date unavailable')
-    elif age > 365:
-        score -= 35; reasons.append('No push in over a year')
-    elif age > 180:
-        score -= 20; reasons.append('No push in over six months')
-    elif age > 90:
-        score -= 10; reasons.append('No push in over three months')
-    score = max(0, min(100, score))
-    label = 'Strong signals' if score >= 80 else 'Some caution' if score >= 55 else 'Needs review'
-    return {'health_score': score, 'health_label': label, 'health_notes': reasons, 'health_method': 'Metadata heuristic: archive status, recognized license and last-push recency'}
-
 def collect_hacker_news(config: dict, limit: int = 5) -> list[dict]:
     queries = config.get('hackernews_queries', [])
     found = {}
@@ -191,7 +152,7 @@ def score_repositories(snapshot: dict, snapshots_dir: Path = SNAPSHOTS) -> list[
         previous_30d = find_comparison(repo["full_name"], current_date, snapshots_dir, 30)
         item = dict(repo)
         item.update(repository_health(item, current_date))
-        previous_30d = find_historical_comparison(repo['full_name'], current_date, 27, 33, snapshots_dir)
+        previous_30d = find_comparison(repo['full_name'], current_date, snapshots_dir, 30)
         item['previous_stars_30d'] = previous_30d
         item['stars_30d'] = item['stars'] - previous_30d if previous_30d is not None else None
         if previous is None:
@@ -209,7 +170,6 @@ def score_repositories(snapshot: dict, snapshots_dir: Path = SNAPSHOTS) -> list[
             item.update({"previous_stars_7d": previous, "stars_7d": delta,
                          "growth_rate_7d": round(rate, 4), "trend_score": round(score, 2)})
             item["trend_status"] = "rising" if delta > 0 else "flat/falling"
-        item.update(repository_health(item, current_date))
         ranked.append(item)
     return sorted(ranked, key=lambda x: (x["trend_score"] is not None, x["trend_score"] or -1, x["stars"]), reverse=True)
 
