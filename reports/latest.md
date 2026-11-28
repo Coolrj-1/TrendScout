@@ -1,46 +1,64 @@
-# TrendScout — Live GitHub Project Radar
+# TrendScout — Daily GitHub Radar
 
-**Captured:** 2026-11-27 06:56 UTC  
-**Projects:** 27  
-**Categories:** 25
+> Snapshot: **2026-11-28** · 514 unique repositories
 
-This is a broader live discovery snapshot, not a measured star-growth leaderboard. Projects include recently created repositories and established repositories with recent activity.
+Star growth is calculated only when a comparable snapshot from 6–8 days earlier exists. New/untracked means there is not enough stored history yet.
 
-## Projects
+| Rank | Repository | Stars | 7-day Δ | Category | Language |
+|---:|---|---:|---:|---|---|
+| 1 | [morluto/rea](https://github.com/morluto/rea) | 481,581 | — | AI agent | TypeScript |
+| 2 | [obra/superpowers](https://github.com/obra/superpowers) | 328,634 | — | AI agent | Shell |
+| 3 | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | 266,665 | — | AI agent | Python |
+| 4 | [n8n-io/n8n](https://github.com/n8n-io/n8n) | 212,366 | — | AI automation | TypeScript |
+| 5 | [firecrawl/firecrawl](https://github.com/firecrawl/firecrawl) | 211,937 | — | AI agent | TypeScript |
+| 6 | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) | 200,393 | — | AI agent | JavaScript |
+| 7 | [langgenius/dify](https://github.com/langgenius/dify) | 162,041 | — | AI agent | Python |
+| 8 | [Snailclimb/JavaGuide](https://github.com/Snailclimb/JavaGuide) | 159,697 | — | AI agent | JavaScript |
+| 9 | [anthropics/claude-code](https://github.com/anthropics/claude-code) | 157,357 | — | agentic workflow | TypeScript |
+| 10 | [langflow-ai/langflow](https://github.com/langflow-ai/langflow) | 156,995 | — | AI agent | Python |
+| 11 | [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify) | 154,391 | — | local LLM | Python |
+| 12 | [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | 150,101 | — | AI agent | Python |
+| 13 | [Comfy-Org/ComfyUI](https://github.com/Comfy-Org/ComfyUI) | 148,978 | — | local AI inference | Python |
+| 14 | [harry0703/MoneyPrinterTurbo](https://github.com/harry0703/MoneyPrinterTurbo) | 146,076 | — | AI video | Python |
+| 15 | [Shubhamsaboo/awesome-llm-apps](https://github.com/Shubhamsaboo/awesome-llm-apps) | 146,002 | — | AI agent | Python |
+| 16 | [earendil-works/pi](https://github.com/earendil-works/pi) | 124,429 | — | AI agent | TypeScript |
+| 17 | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman) | 123,407 | — | AI agent | Go |
+| 18 | [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) | 122,465 | — | AI agent | JavaScript |
+| 19 | [browser-use/browser-use](https://github.com/browser-use/browser-use) | 122,265 | — | AI agent | Python |
+| 20 | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | 120,857 | — | AI agent | JavaScript |
+| 21 | [thedotmack/claude-mem](https://github.com/thedotmack/claude-mem) | 120,296 | — | AI agent | TypeScript |
+| 22 | [debpalash/VoiceStudio](https://github.com/debpalash/VoiceStudio) | 119,557 | — | AI video | Python |
+| 23 | [pbakaus/impeccable](https://github.com/pbakaus/impeccable) | 118,251 | — | AI agent | Rust |
+| 24 | [Panniantong/Agent-Reach](https://github.com/Panniantong/Agent-Reach) | 115,480 | — | AI agent | Python |
+| 25 | [nexu-io/open-design](https://github.com/nexu-io/open-design) | 109,945 | — | AI agent | TypeScript |
+| 26 | [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) | 109,280 | — | AI agent | TypeScript |
+| 27 | [D4Vinci/Scrapling](https://github.com/D4Vinci/Scrapling) | 106,617 | — | AI automation | Python |
+| 28 | [punkpeye/awesome-mcp-servers](https://github.com/punkpeye/awesome-mcp-servers) | 98,593 | — | MCP server | Unknown |
+| 29 | [infiniflow/ragflow](https://github.com/infiniflow/ragflow) | 94,854 | — | AI agent | Go |
+| 30 | [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) | 94,485 | — | AI agent | TypeScript |
+| 31 | [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) | 91,750 | — | AI video | TypeScript |
+| 32 | [koala73/worldmonitor](https://github.com/koala73/worldmonitor) | 91,281 | — | AI agent | TypeScript |
+| 33 | [unclecode/crawl4ai](https://github.com/unclecode/crawl4ai) | 88,078 | — | AI agent | Python |
+| 34 | [bytedance/deer-flow](https://github.com/bytedance/deer-flow) | 85,891 | — | AI agent | Python |
+| 35 | [career-ops-hq/career-ops](https://github.com/career-ops-hq/career-ops) | 85,298 | — | AI agent | JavaScript |
+| 36 | [opendatalab/MinerU](https://github.com/opendatalab/MinerU) | 84,454 | — | agentic workflow | Python |
+| 37 | [OpenMontageInc/OpenMontage](https://github.com/OpenMontageInc/OpenMontage) | 83,957 | — | AI agent | Python |
+| 38 | [ruvnet/ruflo](https://github.com/ruvnet/ruflo) | 82,574 | — | AI agent | TypeScript |
+| 39 | [microsoft/ai-agents-for-beginners](https://github.com/microsoft/ai-agents-for-beginners) | 81,136 | — | AI agent | Jupyter Notebook |
+| 40 | [headroomlabs-ai/headroom](https://github.com/headroomlabs-ai/headroom) | 81,039 | — | AI agent | Python |
+| 41 | [unslothai/unsloth](https://github.com/unslothai/unsloth) | 80,407 | — | AI agent | Python |
+| 42 | [mvanhorn/last30days-skill](https://github.com/mvanhorn/last30days-skill) | 76,549 | — | AI agent | Python |
+| 43 | [hiyouga/LlamaFactory](https://github.com/hiyouga/LlamaFactory) | 76,314 | — | AI agent | Python |
+| 44 | [openbq-org/OpenBB](https://github.com/openbq-org/OpenBB) | 75,811 | — | AI agent | Python |
+| 45 | [blader/humanizer](https://github.com/blader/humanizer) | 74,463 | — | AI agent | Python |
+| 46 | [mem0ai/mem0](https://github.com/mem0ai/mem0) | 69,576 | — | AI agent | Python |
+| 47 | [shanraisshan/claude-code-best-practice](https://github.com/shanraisshan/claude-code-best-practice) | 69,475 | — | AI agent | HTML |
+| 48 | [Mintplex-Labs/anything-llm](https://github.com/Mintplex-Labs/anything-llm) | 68,717 | — | local LLM | JavaScript |
+| 49 | [upstash/context7](https://github.com/upstash/context7) | 65,567 | — | AI agent | TypeScript |
+| 50 | [coreyhaines31/marketingskills](https://github.com/coreyhaines31/marketingskills) | 63,093 | — | AI agent | JavaScript |
 
-| Category | Repository | Stars | Forks | Language | Last pushed (UTC) |
-|---|---|---:|---:|---|---|
-| AI agent platform | [mdiri-ai/SoduWork](https://github.com/mdiri-ai/SoduWork) | 8,332 | 812 | JavaScript | 2026-11-27 06:32:21 |
-| AI agent evaluation | [TIGER-AI-Lab/WebsiteBench](https://github.com/TIGER-AI-Lab/WebsiteBench) | 800 | 53 | Python | 2026-11-17 08:54:35 |
-| AI agent skills | [drost-ai/tinker-ai-skill](https://github.com/drost-ai/tinker-ai-skill) | 338 | 39 | Python | 2026-11-07 17:15:54 |
-| MCP server | [gogoymh/auto-ontology-mcp](https://github.com/gogoymh/auto-ontology-mcp) | 549 | 73 | Python | 2026-11-25 06:53:44 |
-| MCP server | [shanselman/sandbox-mcp](https://github.com/shanselman/sandbox-mcp) | 497 | 27 | JavaScript | 2026-11-15 22:34:43 |
-| MCP server | [Glen-Web-App/best-agent-memory-mcp](https://github.com/Glen-Web-App/best-agent-memory-mcp) | 207 | 10 | Unknown | 2026-11-05 02:37:58 |
-| Local AI inference | [opensetlabs/openset-llm](https://github.com/opensetlabs/openset-llm) | 1,860 | 182 | C++ | 2026-11-27 05:06:18 |
-| Local AI training | [sous-labs/songe](https://github.com/sous-labs/songe) | 911 | 75 | Python | 2026-11-27 02:40:40 |
-| Local AI tools | [ysunyang4/Nexus](https://github.com/ysunyang4/Nexus) | 510 | 88 | TypeScript | 2026-11-27 04:28:22 |
-| Self-hosted AI | [glincker/awesome-selfhosted-ai](https://github.com/glincker/awesome-selfhosted-ai) | 140 | 26 | JavaScript | 2026-11-11 18:27:41 |
-| AI coding workflow | [vaibhav-space/my-ai-coding-workflow](https://github.com/vaibhav-space/my-ai-coding-workflow) | 348 | 48 | HTML | 2026-11-18 18:30:28 |
-| Agent reliability | [trustabl/agent-reliability-skills](https://github.com/trustabl/agent-reliability-skills) | 67 | 56 | JavaScript | 2026-11-24 03:44:49 |
-| AI developer workbench | [AIDotNet/Octopus](https://github.com/AIDotNet/Octopus) | 81 | 15 | C# | 2026-11-27 04:46:29 |
-| Agent evaluation | [relai-ai/agent-eval-loop](https://github.com/relai-ai/agent-eval-loop) | 71 | 3 | Python | 2026-11-25 15:13:13 |
-| Computer-use agent | [openJiuwen-ai/computer-use](https://github.com/openJiuwen-ai/computer-use) | 45 | 6 | Python | 2026-11-26 12:18:52 |
-| Android computer use | [joungminsung/OpenPhoneUse](https://github.com/joungminsung/OpenPhoneUse) | 51 | 17 | Kotlin | 2026-11-24 04:56:05 |
-| Computer-use benchmark | [xlyu0106/CUA-Master](https://github.com/xlyu0106/CUA-Master) | 90 | 9 | Python | 2026-11-03 11:01:57 |
-| AI video analysis | [JuneYaooo/rea-video](https://github.com/JuneYaooo/rea-video) | 13,765 | 1,996 | Python | 2026-11-26 12:39:13 |
-| AI video editor | [Forward-Future/scarlet](https://github.com/Forward-Future/scarlet) | 737 | 80 | TypeScript | 2026-11-27 03:39:23 |
-| AI video generation | [ersinkoc/AI-Video-Factory](https://github.com/ersinkoc/AI-Video-Factory) | 727 | 104 | TypeScript | 2026-11-24 23:36:44 |
-| AI video clipping | [haziqahmedqasmi/PeakCut](https://github.com/haziqahmedqasmi/PeakCut) | 1,974 | 596 | Python | 2026-11-26 17:45:07 |
-| AI video studio | [fendouai/ViralForge](https://github.com/fendouai/ViralForge) | 559 | 18 | TypeScript | 2026-11-23 09:36:24 |
-| Popular agent platform | [openclaw/openclaw](https://github.com/openclaw/openclaw) | 395,323 | 83,009 | TypeScript | 2026-11-27 06:55:39 |
-| Popular coding agent | [anomalyco/opencode](https://github.com/anomalyco/opencode) | 229,477 | 31,252 | TypeScript | 2026-11-27 06:54:06 |
-| Popular agent framework | [obra/superpowers](https://github.com/obra/superpowers) | 327,706 | 29,076 | Shell | 2026-11-26 11:33:33 |
-| Popular MCP server | [github/github-mcp-server](https://github.com/github/github-mcp-server) | 34,791 | 5,427 | Go | 2026-11-26 16:25:07 |
-| Windows computer-use MCP | [CursorTouch/Windows-MCP](https://github.com/CursorTouch/Windows-MCP) | 12,195 | 1,296 | Python | 2026-11-27 06:54:17 |
+## Notes
 
-## Important interpretation
-
-- Star totals are cumulative popularity signals.
-- "Trending" should ultimately mean measured change over time, not simply a large star count.
-- This report marks projects as building history until TrendScout has a comparable snapshot from roughly seven days earlier.
-- The automated scanner is being broadened to search active repositories across more AI and developer-tool categories.
+- Rankings are discovery signals, not endorsements or quality ratings.
+- Search results are limited by GitHub's API and the configured queries.
+- The first week builds history; growth comparisons become more useful after snapshots accumulate.
